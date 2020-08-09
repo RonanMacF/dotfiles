@@ -32,6 +32,10 @@
       vim-polyglot
       gruvbox
       coc-nvim
+      coc-yank
+      coc-python
+      coc-yaml
+      coc-json
       vim-signify
       vim-startify
     ];
