@@ -44,6 +44,7 @@
       vim-signify
       vim-startify
       rainbow
+      vim-commentary
     ];
   };
 }
