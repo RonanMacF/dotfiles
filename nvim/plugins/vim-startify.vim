@@ -1,5 +1,4 @@
-" use cursorline if in startify
-autocmd User Startified setlocal cursorline
+" commit last checked: 593388d
 
 let g:startify_files_number        = 8      " The amount of files to show
 let g:startify_update_oldfiles 	   = 1	    " update files on the fly rather than when vim exits
@@ -11,13 +10,13 @@ let g:startify_fortune_use_unicode = 1      " use utf-8 encoding
 let g:startify_session_sort 	   = 0	    " sort sessions by time rather than alphabeticlly
 
 " lists to be displayed
-  let g:startify_lists = [
-          \ { 'type': 'files',     'header': ['   MRU']            },
-          \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-          \ { 'type': 'sessions',  'header': ['   Sessions']       },
-          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-          \ { 'type': 'commands',  'header': ['   Commands']       },
-          \ ]
+let g:startify_lists = [
+			\ { 'type': 'files',     'header': ['   MRU']            },
+			\ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+			\ { 'type': 'sessions',  'header': ['   Sessions']       },
+			\ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+			\ { 'type': 'commands',  'header': ['   Commands']       },
+			\ ]
 
 " ignore these filetypes
 let g:startify_skiplist = [
@@ -30,9 +29,6 @@ let g:startify_skiplist = [
 let g:startify_bookmarks = [
 			\ { 'c': '~/.vimrc' },
 			\ ]
-
-let g:startify_custom_header =
-            \ startify#fortune#cowsay('', '-','|','','','','')
 
 " commands to be executed before saving a sessions, used for clean up, e.g.
 " unmount things 
