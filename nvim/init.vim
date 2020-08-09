@@ -11,6 +11,14 @@ source ~/dotfiles/nvim/plugins/coc-nvim.vim
 	set title                                   " Set window title
 	set scrolloff=5                             " 5 line buffer at top and bottom of page
 	set sidescroll=3
+	set number relativenumber
+" }}}
+
+" search settings {{{
+	set incsearch ignorecase smartcase hlsearch " highlight while searching, be smart about the case
+	set inccommand=nosplit
+	set grepprg=rg\ --vimgrep
+	set grepformat=%f:%l:%c:%m
 " }}}
 
 " read work specific vimrc if exists

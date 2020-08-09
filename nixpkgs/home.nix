@@ -23,6 +23,7 @@
     htop
     fortune
     fzf
+    ripgrep
   ];
 
   programs.neovim = {
