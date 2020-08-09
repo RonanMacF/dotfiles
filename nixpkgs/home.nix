@@ -29,7 +29,7 @@
     vimAlias = true;
     extraConfig = builtins.readFile ~/dotfiles/nvim/init.vim;
     plugins = with pkgs.vimPlugins; [
-      vim-nix
+      vim-polyglot
       gruvbox
       coc-nvim
       vim-signify
