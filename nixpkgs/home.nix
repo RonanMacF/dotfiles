@@ -34,7 +34,7 @@
     plugins = with pkgs.vimPlugins; [
       fzf-vim
       vim-polyglot
-      gruvbox
+      gruvbox-community
       coc-nvim
       coc-yank
       coc-python
