@@ -12,3 +12,8 @@ source ~/dotfiles/nvim/plugins/coc-nvim.vim
 	set scrolloff=5                             " 5 line buffer at top and bottom of page
 	set sidescroll=3
 " }}}
+
+" read work specific vimrc if exists
+if filereadable(expand("~/.vim/custom.vim"))
+   execute "source " . "~/.vim/custom.vim"
+endif
