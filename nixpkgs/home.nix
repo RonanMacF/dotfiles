@@ -24,6 +24,7 @@
     fortune
     fzf
     ripgrep
+    stow
   ];
 
   programs.neovim = {
