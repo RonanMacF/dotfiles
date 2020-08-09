@@ -3,6 +3,7 @@ let &packpath = &runtimepath
 source ~/dotfiles/nvim/plugins/vim-startify.vim
 source ~/dotfiles/nvim/plugins/vim-signify.vim
 source ~/dotfiles/nvim/plugins/coc-nvim.vim
+source ~/dotfiles/nvim/plugins/rainbow.vim
 
 " appearence {{{
 	colorscheme gruvbox

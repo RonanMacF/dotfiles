@@ -41,6 +41,7 @@
       coc-json
       vim-signify
       vim-startify
+      rainbow
     ];
   };
 }
