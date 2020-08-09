@@ -35,12 +35,3 @@ let g:startify_bookmarks = [
 let g:startify_session_before_save = [
 			\ 'echo "Cleaning up before saving.."',
 			\ ]
-
-hi StartifyBracket ctermfg=240
-hi StartifyFile    ctermfg=147
-hi StartifyFooter  ctermfg=240
-hi StartifyHeader  ctermfg=114
-hi StartifyNumber  ctermfg=215
-hi StartifyPath    ctermfg=245
-hi StartifySlash   ctermfg=240
-hi StartifySpecial ctermfg=240
