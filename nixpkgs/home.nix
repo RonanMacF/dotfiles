@@ -19,9 +19,10 @@
   # changes in each release.
   home.stateVersion = "20.09";
 
-    home.packages = [
-    pkgs.htop
-    pkgs.fortune
+    home.packages = with pkgs; [
+    htop
+    fortune
+    fzf
   ];
 
   programs.neovim = {
@@ -29,6 +30,7 @@
     vimAlias = true;
     extraConfig = builtins.readFile ~/dotfiles/nvim/init.vim;
     plugins = with pkgs.vimPlugins; [
+      fzf-vim
       vim-polyglot
       gruvbox
       coc-nvim
