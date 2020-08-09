@@ -39,6 +39,7 @@
       coc-python
       coc-yaml
       coc-json
+      coc-pairs
       vim-signify
       vim-startify
       rainbow
