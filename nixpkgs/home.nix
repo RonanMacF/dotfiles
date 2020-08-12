@@ -30,6 +30,7 @@
       
       # prog langs
       go
+      gopls
       gcc
       clang-tools
       python3
@@ -67,10 +68,12 @@
         coc-yaml
         coc-json
         coc-pairs
+        coc-go
         vim-signify
         vim-startify
         rainbow
         vim-commentary
+        vim-go
       ];
     };
   }

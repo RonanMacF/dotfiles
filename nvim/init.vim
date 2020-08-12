@@ -4,6 +4,7 @@ source ~/dotfiles/nvim/plugins/vim-startify.vim
 source ~/dotfiles/nvim/plugins/vim-signify.vim
 source ~/dotfiles/nvim/plugins/coc-nvim.vim
 source ~/dotfiles/nvim/plugins/rainbow.vim
+source ~/dotfiles/nvim/plugins/vim-go.vim
 
 " system settings {{{
 	set shell=/bin/zsh                          " Prefer zsh for shell-related tasks
