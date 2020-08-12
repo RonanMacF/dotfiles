@@ -19,32 +19,58 @@
   # changes in each release.
   home.stateVersion = "20.09";
 
-    home.packages = with pkgs; [
-    htop
-    fortune
-    fzf
-    ripgrep
-    stow
-  ];
+  home.packages = with pkgs; [
+      # networking utilities
+      # sshfs
+      # traceroute
+      sshpass
+      wget
+      dnsutils
+      mtr
+      
+      # prog langs
+      go
+      gcc
+      clang-tools
+      python3
+      python2
+      # python-language-server
 
-  programs.neovim = {
-    enable = true;
-    vimAlias = true;
-    extraConfig = builtins.readFile ~/dotfiles/nvim/init.vim;
-    plugins = with pkgs.vimPlugins; [
-      fzf-vim
-      vim-polyglot
-      gruvbox-community
-      coc-nvim
-      coc-yank
-      coc-python
-      coc-yaml
-      coc-json
-      coc-pairs
-      vim-signify
-      vim-startify
-      rainbow
-      vim-commentary
+      # tools
+      mosh
+      openssl
+      lsof
+      jq
+      # iotop
+      htop
+      git
+      bat
+      colordiff
+      bandwhich
+      htop
+      fzf
+      ripgrep
+      stow
     ];
-  };
-}
+
+    programs.neovim = {
+      enable = true;
+      vimAlias = true;
+      extraConfig = builtins.readFile ~/dotfiles/nvim/init.vim;
+      plugins = with pkgs.vimPlugins; [
+        fzf-vim
+        vim-polyglot
+        gruvbox-community
+        coc-nvim
+        coc-yank
+        coc-python
+        coc-yaml
+        coc-json
+        coc-pairs
+        vim-signify
+        vim-startify
+        rainbow
+        vim-commentary
+      ];
+    };
+  }
