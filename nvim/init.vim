@@ -48,6 +48,30 @@ source ~/dotfiles/nvim/plugins/vim-go.vim
 	set grepformat=%f:%l:%c:%m
 " }}}
 
+" window switching {{{
+        " Terminal mode:
+        tnoremap <C-h> <c-\><c-n><c-w>h
+        tnoremap <C-j> <c-\><c-n><c-w>j
+        tnoremap <C-k> <c-\><c-n><c-w>k
+        tnoremap <C-l> <c-\><c-n><c-w>l
+        " Insert mode:
+        inoremap <C-h> <Esc><c-w>h
+        inoremap <C-j> <Esc><c-w>j
+        inoremap <C-k> <Esc><c-w>k
+        inoremap <C-l> <Esc><c-w>l
+        " Visual mode:
+        vnoremap <C-h> <Esc><c-w>h
+        vnoremap <C-j> <Esc><c-w>j
+        vnoremap <C-k> <Esc><c-w>k
+        vnoremap <C-l> <Esc><c-w>l
+        " Normal mode:
+        nnoremap <C-h> <c-w>h
+        nnoremap <C-j> <c-w>j
+        nnoremap <C-k> <c-w>k
+        nnoremap <C-l> <c-w>l
+" }}}
+
+
 " read work specific vimrc if exists
 if filereadable(expand("~/.vim/custom.vim"))
 	execute "source " . "~/.vim/custom.vim"
