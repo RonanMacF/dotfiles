@@ -75,6 +75,9 @@
         vim-go
         vim-polyglot
         indentLine
+        vim-repeat
+        vim-unimpaired
+        vim-exchange
       ];
     };
   }
