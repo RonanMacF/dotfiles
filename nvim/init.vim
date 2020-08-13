@@ -71,6 +71,19 @@ source ~/dotfiles/nvim/plugins/vim-go.vim
         nnoremap <C-l> <c-w>l
 " }}}
 
+" mappings {{{
+        " terminal mode ESC mapping
+        tnoremap <Esc> <C-\><C-n>
+        tnoremap <M-[> <Esc
+" }}}
+
+" autocommands {{{
+        " source vimrc when edited
+        augroup Vimrc
+            autocmd! bufwritepost .vimrc source $MYVIMRC
+        augroup ENDV
+" }}}
+
 
 " read work specific vimrc if exists
 if filereadable(expand("~/.vim/custom.vim"))
