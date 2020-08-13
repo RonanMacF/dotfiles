@@ -60,7 +60,6 @@
       extraConfig = builtins.readFile ~/dotfiles/nvim/init.vim;
       plugins = with pkgs.vimPlugins; [
         fzf-vim
-        vim-polyglot
         gruvbox-community
         coc-nvim
         coc-yank
@@ -74,6 +73,8 @@
         rainbow
         vim-commentary
         vim-go
+        vim-polyglot
+        indentLine
       ];
     };
   }
