@@ -15,13 +15,17 @@ source ~/dotfiles/nvim/plugins/vim-go.vim
 	set spelllang=en_gb
 	set backspace=indent,eol,start
 	set encoding=utf-8
+        set fileencoding=utf-8
 	set wildmode=list:longest,list:full
 	set splitbelow splitright
+        let g:netrw_dirhistmax = 0                  " Prevent .netrwhist file from being created
+        set foldmethod=marker
 " }}}
 
 " text formatting settings {{{
 	set tabstop=8 softtabstop=4 shiftwidth=4    " Prefer spaces over tabs, width = 4, default behaviour
 	set expandtab
+        set shiftround
 " }}}
 
 " TTY Performance {{{
@@ -75,6 +79,9 @@ source ~/dotfiles/nvim/plugins/vim-go.vim
         " terminal mode ESC mapping
         tnoremap <Esc> <C-\><C-n>
         tnoremap <M-[> <Esc
+
+        " Black hole deletes
+        nnoremap <leader>d "_d
 " }}}
 
 " autocommands {{{
