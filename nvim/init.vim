@@ -43,6 +43,7 @@ source ~/dotfiles/nvim/plugins/vim-go.vim
 	set scrolloff=5                             " 5 line buffer at top and bottom of page
 	set sidescroll=3
 	set number relativenumber
+        hi! TermCursorNC ctermfg=15 guifg=#fdf6e3 ctermbg=14 guibg=#93a1a1 cterm=NONE gui=NONE
 " }}}
 
 " search settings {{{
