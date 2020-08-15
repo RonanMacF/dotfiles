@@ -78,6 +78,7 @@
         vim-repeat
         vim-unimpaired
         vim-exchange
+        vim-devicons
       ];
     };
   }
