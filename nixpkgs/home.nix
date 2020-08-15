@@ -79,6 +79,7 @@
         vim-unimpaired
         vim-exchange
         vim-devicons
+        vim-sleuth
       ];
     };
   }
