@@ -1,11 +1,9 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
-source ~/dotfiles/nvim/plugins/vim-startify.vim
-source ~/dotfiles/nvim/plugins/vim-signify.vim
-source ~/dotfiles/nvim/plugins/coc-nvim.vim
-source ~/dotfiles/nvim/plugins/rainbow.vim
-source ~/dotfiles/nvim/plugins/vim-go.vim
-source ~/dotfiles/nvim/plugins/vim-airline.vim
+" read custom plugin configurations
+for f in split(glob('~/dotfiles/nvim/plugins/*.vim'), '\n')
+        exe 'source' f
+endfor
 
 " system settings {{{
 	set shell=/bin/zsh                          " Prefer zsh for shell-related tasks
