@@ -83,6 +83,7 @@
         vim-sleuth
         vim-airline
         vim-lastplace
+        vim-sandwich        # add/chanfe/remove {[("' around text objects
       ];
     };
   }
