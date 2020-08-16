@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ Config, pkgs, ... }:
 
 {
   # Let Home Manager install and manage itself.
@@ -84,6 +84,8 @@
         vim-airline
         vim-lastplace
         vim-sandwich        # add/chanfe/remove {[("' around text objects
+        vim-vinegar
+        vim-fugitive
       ];
     };
   }
