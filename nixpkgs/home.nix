@@ -80,6 +80,8 @@
         vim-exchange
         vim-devicons
         vim-sleuth
+        vim-airline
+        vim-lastplace
       ];
     };
   }
