@@ -77,6 +77,7 @@
         indentLine
         vim-repeat
         vim-unimpaired
+        vim-eunuch
         vim-exchange
         vim-devicons
         vim-sleuth
