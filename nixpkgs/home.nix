@@ -86,6 +86,7 @@
         vim-sandwich        # add/chanfe/remove {[("' around text objects
         vim-vinegar
         vim-fugitive
+        vim-smoothie
       ];
     };
   }
