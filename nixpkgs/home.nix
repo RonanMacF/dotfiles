@@ -87,6 +87,7 @@
         vim-vinegar
         vim-fugitive
         vim-smoothie
+        vim-matchup
       ];
     };
   }
