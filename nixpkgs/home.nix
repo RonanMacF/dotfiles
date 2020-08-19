@@ -52,6 +52,8 @@
       fzf
       ripgrep
       stow
+      lf
+      pistol
     ];
 
     programs.neovim = {
