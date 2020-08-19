@@ -84,6 +84,7 @@
         coc-json
         coc-pairs
         coc-go
+        vista-vim           # not coc but uses coc LSP symbols
 
         # text formatting
         vim-commentary      # easilt do comments
@@ -107,7 +108,7 @@
         vim-repeat
         vim-eunuch
 
-        TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
+        # TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
       ];
     };
   }
