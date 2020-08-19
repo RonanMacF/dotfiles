@@ -89,7 +89,7 @@
         # text formatting
         vim-commentary      # easilt do comments
         vim-exchange        # swap text objects
-        vim-sandwich        # add/chanfe/remove {[("' around text objects
+        vim-sandwich        # add/chanfe/remove {[("' around text objects, TODO: check if vim.targets could be good with this
         vim-matchup         # matchit++ 
         vim-sleuth          # automatically figure out indentation from similar files
 
