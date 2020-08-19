@@ -75,6 +75,7 @@
         # source control
         vim-signify         # add source control symbols to the gutter and enable hunk jumping
         vim-fugitive
+        git-messenger-vim   # view commit related to current line 
 
         # coc plugins
         coc-nvim
