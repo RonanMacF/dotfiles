@@ -54,6 +54,7 @@
       stow
       lf
       pistol
+      highlight
     ];
 
     programs.neovim = {
@@ -90,6 +91,8 @@
         vim-fugitive
         vim-smoothie
         vim-matchup
+        bclose-vim
+        gundo-vim
       ];
     };
   }
