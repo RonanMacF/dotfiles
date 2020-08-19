@@ -35,3 +35,7 @@ let g:startify_bookmarks = [
 let g:startify_session_before_save = [
 			\ 'echo "Cleaning up before saving.."',
 			\ ]
+
+function! StartifyEntryFormat()
+	return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+endfunction
