@@ -62,8 +62,21 @@
       vimAlias = true;
       extraConfig = builtins.readFile ~/dotfiles/nvim/init.vim;
       plugins = with pkgs.vimPlugins; [
-        fzf-vim
-        gruvbox-community
+
+        # appearence
+        gruvbox-community   # colorscheme 
+        indentLine          # display line indentation markers 
+        rainbow             # highlight matching parentheses in different colors 
+        vim-airline         # add a nice status bar
+        vim-devicons        # add some nice icons, makes things a bit prettier
+        vim-startify        # nice startup screen with MRU files
+        vim-lastplace       # open file on last place the cursor was
+
+        # source control
+        vim-signify         # add source control symbols to the gutter and enable hunk jumping
+        vim-fugitive
+
+        # coc plugins
         coc-nvim
         coc-yank
         coc-python
@@ -71,28 +84,30 @@
         coc-json
         coc-pairs
         coc-go
-        vim-signify
-        vim-startify
-        rainbow
-        vim-commentary
-        vim-go
-        vim-polyglot
-        indentLine
-        vim-repeat
-        vim-unimpaired
-        vim-eunuch
-        vim-exchange
-        vim-devicons
-        vim-sleuth
-        vim-airline
-        vim-lastplace
+
+        # text formatting
+        vim-commentary      # easilt do comments
+        vim-exchange        # swap text objects
         vim-sandwich        # add/chanfe/remove {[("' around text objects
-        vim-vinegar
-        vim-fugitive
-        vim-smoothie
-        vim-matchup
-        bclose-vim
-        gundo-vim
+        vim-matchup         # matchit++ 
+        vim-sleuth          # automatically figure out indentation from similar files
+
+        # prog langs
+        vim-go              # official go program 
+        vim-polyglot        # syntac highlighing language pack
+
+        # utilities
+        fzf-vim             # fzf functionality in vim 
+        vim-smoothie        # smooth scrolling 
+        vim-unimpaired      # nicer mapping 
+        gundo-vim           # saves undo history, TODO: look into yank history outside of 1-9 
+        bclose-vim          # close buffers in a smart way, TODO: maybe look into buffer searcher 
+        vim-vinegar         # TODO: remove once netrw is no more
+
+        vim-repeat
+        vim-eunuch
+
+        TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
       ];
     };
   }
