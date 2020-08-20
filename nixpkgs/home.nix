@@ -75,7 +75,7 @@
         # source control
         vim-signify         # add source control symbols to the gutter and enable hunk jumping
         vim-fugitive
-        git-messenger-vim   # view commit related to current line 
+        git-messenger-vim
 
         # coc plugins
         coc-nvim
@@ -85,18 +85,18 @@
         coc-json
         coc-pairs
         coc-go
-        vista-vim           # not coc but uses coc LSP symbols
+        coc-fzf
 
         # text formatting
         vim-commentary      # easilt do comments
         vim-exchange        # swap text objects
-        vim-sandwich        # add/chanfe/remove {[("' around text objects, TODO: check if vim.targets could be good with this
+        vim-sandwich        # add/chanfe/remove {[("' around text objects
         vim-matchup         # matchit++ 
         vim-sleuth          # automatically figure out indentation from similar files
 
         # prog langs
-        vim-go              # official go program 
         vim-polyglot        # syntac highlighing language pack
+        vim-go              # official go program 
 
         # utilities
         fzf-vim             # fzf functionality in vim 
