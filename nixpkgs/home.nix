@@ -86,6 +86,7 @@
         coc-pairs
         coc-go
         coc-fzf
+        coc-highlight
 
         # text formatting
         vim-commentary      # easilt do comments
