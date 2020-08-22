@@ -82,10 +82,14 @@ endfor
 " mappings {{{
         " terminal mode ESC mapping
         tnoremap <Esc> <C-\><C-n>
-        tnoremap <M-[> <Esc
+        tnoremap <M-[> <Esc>
 
         " Black hole deletes
         nnoremap <leader>d "_d
+        
+        " new line in normal mode and back
+        map <Enter> o<ESC>
+        map <S-Enter> O<ESC>
 " }}}
 
 " autocommands {{{
