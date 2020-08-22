@@ -39,3 +39,6 @@ let g:startify_session_before_save = [
 function! StartifyEntryFormat()
 	return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
 endfunction
+
+autocmd BufDelete * if empty(filter(tabpagebuflist(), '!buflisted(v:val)')) | Startify | endif
+
