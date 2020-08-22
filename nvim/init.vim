@@ -21,7 +21,6 @@ endfor
         set foldmethod=marker
         set undofile
         set undodir=/tmp
-        set noshowmode
 " }}}
 
 " text formatting settings {{{
@@ -47,6 +46,15 @@ endfor
 	set number relativenumber
         hi! TermCursorNC ctermfg=15 guifg=#fdf6e3 ctermbg=14 guibg=#93a1a1 cterm=NONE gui=NONE
         let loaded_netrw = 0                                    " diable netew
+        set noshowmode
+        " tmux cursor shape
+        if exists('$TMUX')
+                let &t_SI .= "\ePtmux;\e\e[=1c\e\\"
+                let &t_EI .= "\ePtmux;\e\e[=2c\e\\"
+        else
+                let &t_SI .= "\e[=1c"
+                let &t_EI .= "\e[=2c"
+        endif
 " }}}
 
 " search settings {{{
