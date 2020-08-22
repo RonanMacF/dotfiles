@@ -87,6 +87,7 @@
         coc-go
         coc-fzf
         coc-highlight
+        vista-vim
 
         # text formatting
         vim-commentary      # easilt do comments
