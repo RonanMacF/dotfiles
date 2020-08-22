@@ -19,6 +19,8 @@ endfor
 	set splitbelow splitright
         let g:netrw_dirhistmax = 0                  " Prevent .netrwhist file from being created
         set foldmethod=marker
+        set undofile=true
+        set undodir=~/.config/nvim/undo
 " }}}
 
 " text formatting settings {{{

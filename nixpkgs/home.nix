@@ -103,7 +103,7 @@
         fzf-vim             # fzf functionality in vim 
         vim-smoothie        # smooth scrolling 
         vim-unimpaired      # nicer mapping 
-        gundo-vim           # saves undo history, TODO: look into yank history outside of 1-9 
+        undotree            # saves undo history, TODO: look into yank history outside of 1-9 
         bclose-vim          # close buffers in a smart way, TODO: maybe look into buffer searcher 
         vim-vinegar         # TODO: remove once netrw is no more
 
