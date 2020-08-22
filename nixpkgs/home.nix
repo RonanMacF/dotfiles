@@ -71,6 +71,7 @@
         vim-devicons        # add some nice icons, makes things a bit prettier
         vim-startify        # nice startup screen with MRU files
         vim-lastplace       # open file on last place the cursor was
+        vim-signature
 
         # source control
         vim-signify         # add source control symbols to the gutter and enable hunk jumping
@@ -106,6 +107,8 @@
         vim-unimpaired      # nicer mapping 
         undotree            # saves undo history, TODO: look into yank history outside of 1-9 
         bclose-vim          # close buffers in a smart way, TODO: maybe look into buffer searcher 
+        vim-peekaboo
+
 
         vim-repeat
         vim-eunuch
