@@ -20,7 +20,8 @@ endfor
         let g:netrw_dirhistmax = 0                  " Prevent .netrwhist file from being created
         set foldmethod=marker
         set undofile
-        set undodir=~/.config/nvim/undo
+        set undodir=/tmp
+        set noshowmode
 " }}}
 
 " text formatting settings {{{
@@ -99,6 +100,9 @@ endfor
                 autocmd InsertLeave * set relativenumber
                 autocmd InsertEnter * set norelativenumber
         augroup END
+        
+        " open help in vertical split
+        autocmd FileType help wincmd L
 " }}}
 
 
