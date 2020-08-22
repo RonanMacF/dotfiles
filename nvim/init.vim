@@ -98,6 +98,9 @@ endfor
         " new line in normal mode and back
         map <Enter> o<ESC>
         map <S-Enter> O<ESC>
+        
+        " make Y work like D and C
+        nnoremap Y yf$
 " }}}
 
 " autocommands {{{
