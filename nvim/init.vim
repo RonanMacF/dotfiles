@@ -92,6 +92,13 @@ endfor
         augroup Vimrc
             autocmd! bufwritepost .vimrc source $MYVIMRC
         augroup ENDV
+
+        " relative numbers on normal mode only
+        augroup numbertoggle
+                autocmd!
+                autocmd InsertLeave * set relativenumber
+                autocmd InsertEnter * set norelativenumber
+        augroup END
 " }}}
 
 
