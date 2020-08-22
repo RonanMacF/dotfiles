@@ -103,3 +103,9 @@ endif
 if !exists('g:lf_map_keys') || g:lf_map_keys
   map <leader>f :Lf<CR>
 endif
+
+" replace netrw with lf
+augroup ReplaceNetrwByLfVim
+  autocmd VimEnter * silent! autocmd! FileExplorer
+  autocmd BufEnter * if isdirectory(expand("%")) | call OpenLfOnVimLoadDir("%") | endif
+augroup END

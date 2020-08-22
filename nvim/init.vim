@@ -45,6 +45,7 @@ endfor
 	set sidescroll=3
 	set number relativenumber
         hi! TermCursorNC ctermfg=15 guifg=#fdf6e3 ctermbg=14 guibg=#93a1a1 cterm=NONE gui=NONE
+        let loaded_netrw = 0                                    " diable netew
 " }}}
 
 " search settings {{{
