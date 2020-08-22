@@ -97,8 +97,8 @@
         vim-sleuth          # automatically figure out indentation from similar files
 
         # prog langs
-        vim-polyglot        # syntac highlighing language pack
         vim-go              # official go program 
+        # vim-polyglot        # syntac highlighing language pack
 
         # utilities
         fzf-vim             # fzf functionality in vim 
@@ -106,7 +106,6 @@
         vim-unimpaired      # nicer mapping 
         undotree            # saves undo history, TODO: look into yank history outside of 1-9 
         bclose-vim          # close buffers in a smart way, TODO: maybe look into buffer searcher 
-        vim-vinegar         # TODO: remove once netrw is no more
 
         vim-repeat
         vim-eunuch
