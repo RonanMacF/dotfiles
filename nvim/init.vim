@@ -107,6 +107,8 @@ endfor
         
         " open help in vertical split
         autocmd FileType help wincmd L
+
+        au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 " }}}
 
 
