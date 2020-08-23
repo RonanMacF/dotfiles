@@ -55,6 +55,7 @@
       lf
       pistol
       highlight
+      neovim-remote
     ];
 
     programs.neovim = {
