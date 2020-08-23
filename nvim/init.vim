@@ -108,6 +108,14 @@ endfor
         " switch buffer from insert mode in terminal
         tmap [b <Esc><Plug>unimpairedBPrevious
         tmap ]b <Esc><Plug>unimpairedBNext
+
+        " ctrl style quit/save/copy/paste
+        inoremap <C-s>     <C-O>:update<cr>
+        nnoremap <C-s>     :update<cr>
+        inoremap <C-Q>     <esc>:q<cr>
+        nnoremap <C-Q>     :q<cr>
+        vnoremap <C-Q>     <esc>
+        " TODO: automaticaly set paste and use OSC52 escape sequence
 " }}}
 
 " autocommands {{{
