@@ -1,8 +1,8 @@
 " Always enable preview window on the right with 60% width
-let g:fzf_preview_window = 'right:60%'
+let g:fzf_preview_window = 'right:50%'
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8, 'highlight': 'Comment' } }
-let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob --ignore-case "!.git/*"'
-let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' }
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+" let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow()' }
 
 " advanced grep(faster with preview)
 function! RipgrepFzf(query, fullscreen)
@@ -37,3 +37,4 @@ function! CreateCenteredFloatingWindow()
     au BufWipeout <buffer> exe 'bw '.s:buf
 endfunction
 
+command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline', '-i', '--tabstop=2']}), <bang>0)
