@@ -101,6 +101,13 @@ endfor
         
         " make Y work like D and C
         nnoremap Y yf$
+
+        " qq to record, Q to replay
+        nnoremap Q @q
+        
+        " switch buffer from insert mode in terminal
+        tmap [b <Esc><Plug>unimpairedBPrevious
+        tmap ]b <Esc><Plug>unimpairedBNext
 " }}}
 
 " autocommands {{{
@@ -119,7 +126,7 @@ endfor
         " open help in vertical split
         autocmd FileType help wincmd L
 
-        au BufEnter * if &buftype == 'terminal' | :startinsert | endif
+        au TermOpen,TermEnter,BufEnter * if &buftype == 'terminal' | :startinsert | endif
 " }}}
 
 
