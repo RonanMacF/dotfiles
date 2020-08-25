@@ -56,6 +56,8 @@
       pistol
       highlight
       neovim-remote
+      broot
+      fd
     ];
 
     programs.neovim = {
