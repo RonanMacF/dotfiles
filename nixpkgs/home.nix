@@ -57,6 +57,7 @@
       highlight
       broot
       fd
+      tig
     ];
 
     programs.neovim = {
@@ -79,6 +80,7 @@
         vim-signify         # add source control symbols to the gutter and enable hunk jumping
         vim-fugitive
         git-messenger-vim
+        committia-vim
 
         # coc plugins
         coc-nvim
