@@ -54,6 +54,12 @@ endfor
         hi! TermCursorNC ctermfg=15 guifg=#fdf6e3 ctermbg=14 guibg=#93a1a1 cterm=NONE gui=NONE
         let loaded_netrw = 0                                    " diable netew
         set noshowmode
+        " Character to show before the lines that have been soft-wrapped
+        set showbreak=↪
+        set nojoinspaces " dont use two spaces when joining lines using 'J' and it contains a fullstop
+        set termguicolors " https://gist.github.com/XVilka/8346728
+        " italicize comments  
+        highlight Comment cterm=italic gui=italic            
         " tmux cursor shape
         if exists('$TMUX')
                 let &t_SI .= "\ePtmux;\e\e[=1c\e\\"
