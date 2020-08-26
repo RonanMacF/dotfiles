@@ -8,9 +8,7 @@ endfor
 " system settings {{{
 	set shell=/bin/zsh                          " Prefer zsh for shell-related tasks
 	set hidden                                  " Prefer hiding over unloading buffers
-	set noswapfile                              " No swapfiles period.
 	set mouse=a                                 " Enable mouse usage, e.g. for resizing windows
-	set noswapfile                              " No swapfiles period.
 	set spelllang=en_gb
 	set backspace=indent,eol,start
 	set encoding=utf-8
@@ -19,8 +17,14 @@ endfor
 	set splitbelow splitright
         let g:netrw_dirhistmax = 0                  " Prevent .netrwhist file from being created
         set foldmethod=marker
+
+        " Using double trailing slashes in the path tells vim to enable a feature where it avoids name collisions
         set undofile
-        set undodir=/tmp
+        set undodir=~/.config/nvim/undo//
+        set backup
+        set writebackup
+        set backupdir=~/.config/nvim/backup//
+        set directory=~/.config/nvim/swap//
 " }}}
 
 " text formatting settings {{{
