@@ -11,12 +11,15 @@ endfor
 	set mouse=a                                 " Enable mouse usage, e.g. for resizing windows
 	set spelllang=en_gb
 	set backspace=indent,eol,start
-	set encoding=utf-8
-        set fileencoding=utf-8
 	set wildmode=list:longest,list:full
 	set splitbelow splitright
         let g:netrw_dirhistmax = 0                  " Prevent .netrwhist file from being created
         set foldmethod=marker
+
+        " encoding
+	set encoding=utf-8
+        set fileencoding=utf-8
+        scriptencoding utf-8
 
         " Using double trailing slashes in the path tells vim to enable a feature where it avoids name collisions
         set undofile
