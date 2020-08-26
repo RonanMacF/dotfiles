@@ -55,7 +55,6 @@
       lf
       pistol
       highlight
-      neovim-remote
       broot
       fd
     ];
@@ -102,7 +101,8 @@
 
         # prog langs
         vim-go              # official go program 
-        # vim-polyglot        # syntac highlighing language pack
+        semshi              # python sybtax highlighter 
+        # vim-polyglot      # syntac highlighing language pack
 
         # utilities
         fzf-vim             # fzf functionality in vim 
