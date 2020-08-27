@@ -8,11 +8,12 @@ let g:startify_session_persistence = 1      " automatically update sessions when
 let g:startify_change_to_vcs_root  = 1      " change to VCS root directory if applicable
 let g:startify_fortune_use_unicode = 1      " use utf-8 encoding
 let g:startify_session_sort 	   = 0	    " sort sessions by time rather than alphabeticlly
+let g:startify_session_dir = '~/.config/nvim/session' 
 
 " lists to be displayed
 let g:startify_lists = [
-			\ { 'type': 'files',     'header': ['   MRU']            },
 			\ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+			\ { 'type': 'files',     'header': ['   MRU']            },
 			\ { 'type': 'sessions',  'header': ['   Sessions']       },
 			\ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
 			\ { 'type': 'commands',  'header': ['   Commands']       },
@@ -36,6 +37,7 @@ let g:startify_session_before_save = [
 			\ 'echo "Cleaning up before saving.."',
 			\ ]
 
+" add some lovely devicons
 function! StartifyEntryFormat()
 	return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
 endfunction
