@@ -11,7 +11,8 @@ endfor
 	set mouse=a                                 " Enable mouse usage, e.g. for resizing windows
 	set spelllang=en_gb
 	set backspace=indent,eol,start
-	set wildmode=list:longest,list:full
+	set wildmode=longest:full,full
+        set wildoptions=pum
 	set splitbelow splitright
         let g:netrw_dirhistmax = 0                  " Prevent .netrwhist file from being created
         set foldmethod=marker
@@ -34,6 +35,7 @@ endfor
 	set tabstop=8 softtabstop=4 shiftwidth=4    " Prefer spaces over tabs, width = 4, default behaviour
 	set expandtab
         set shiftround
+        set formatoptions=tcqn1j
 " }}}
 
 " TTY Performance {{{
@@ -56,6 +58,8 @@ endfor
         set noshowmode
         " Character to show before the lines that have been soft-wrapped
         set showbreak=↪
+        " Do not wrap inside words
+        set linebreak
         set nojoinspaces " dont use two spaces when joining lines using 'J' and it contains a fullstop
         set termguicolors " https://gist.github.com/XVilka/8346728
         " italicize comments  
@@ -68,6 +72,7 @@ endfor
                 let &t_SI .= "\e[=1c"
                 let &t_EI .= "\e[=2c"
         endif
+        set fillchars=vert:│
 " }}}
 
 " search settings {{{
