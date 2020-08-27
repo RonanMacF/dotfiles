@@ -9,12 +9,14 @@ endfor
 	set shell=/bin/zsh                          " Prefer zsh for shell-related tasks
 	set hidden                                  " Prefer hiding over unloading buffers
 	set mouse=a                                 " Enable mouse usage, e.g. for resizing windows
+        set shada=!,'100,f1,h,
 	set spelllang=en_gb
 	set backspace=indent,eol,start
 	set wildmode=longest:full,full
         set wildoptions=pum
 	set splitbelow splitright
         let g:netrw_dirhistmax = 0                  " Prevent .netrwhist file from being created
+        set clipboard+=unnamedplus
         set foldmethod=marker
 
         " encoding
@@ -73,10 +75,17 @@ endfor
                 let &t_EI .= "\e[=2c"
         endif
         set fillchars=vert:│
+        " Use a blinking upright bar cursor in Insert mode, a solid block in normal
+        " and a blinking underline in replace mode
+        let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+        let &t_SI = "\<Esc>[5 q"
+        let &t_SR = "\<Esc>[3 q"
+        let &t_EI = "\<Esc>[2 q"
 " }}}
 
 " search settings {{{
 	set incsearch ignorecase smartcase hlsearch " highlight while searching, be smart about the case
+        set gdefault   " when on, the :substitute flag 'g' is default on
 	set inccommand=nosplit
 	set grepprg=rg\ --vimgrep
 	set grepformat=%f:%l:%c:%m
@@ -133,6 +142,15 @@ endfor
         inoremap <C-Q>     <esc>:q<cr>
         nnoremap <C-Q>     :q<cr>
         vnoremap <C-Q>     <esc>
+        nnoremap <leader>w :w!<CR>
+
+        " Keep search results at the center of screen
+        nmap n nzz
+        nmap N Nzz
+        nmap * *zz
+        nmap # #zz
+        nmap g* g*zz
+        nmap g# g#zz
         " TODO: automaticaly set paste and use OSC52 escape sequence
 " }}}
 
@@ -151,7 +169,7 @@ endfor
         
         " open help in vertical split
         autocmd FileType help wincmd L
-
+        
         au TermOpen,TermEnter,BufEnter * if &buftype == 'terminal' | :startinsert | endif
 " }}}
 
