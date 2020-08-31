@@ -18,6 +18,7 @@ endfor
         let g:netrw_dirhistmax = 0                  " Prevent .netrwhist file from being created
         set clipboard+=unnamedplus
         set foldmethod=marker
+        set autoread
 
         " encoding
 	set encoding=utf-8
@@ -74,13 +75,15 @@ endfor
                 let &t_SI .= "\e[=1c"
                 let &t_EI .= "\e[=2c"
         endif
-        set fillchars=vert:│
+        set fillchars=vert:│,fold:-
         " Use a blinking upright bar cursor in Insert mode, a solid block in normal
         " and a blinking underline in replace mode
         let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
         let &t_SI = "\<Esc>[5 q"
         let &t_SR = "\<Esc>[3 q"
         let &t_EI = "\<Esc>[2 q"
+        set whichwrap=b,s,<,>,[,] " make backspace, space and arrow keys work nrmally on wrapped lines
+        set diffopt=filler,vertical
 " }}}
 
 " search settings {{{
@@ -138,19 +141,30 @@ endfor
 
         " ctrl style quit/save/copy/paste
         inoremap <C-s>     <C-O>:update<cr>
+
         nnoremap <C-s>     :update<cr>
         inoremap <C-Q>     <esc>:q<cr>
         nnoremap <C-Q>     :q<cr>
         vnoremap <C-Q>     <esc>
         nnoremap <leader>w :w!<CR>
+        nnoremap <leader>q :q!<CR>
+
+        " jk escaping
+        inoremap jk <Esc>
+        xnoremap jk <Esc>
+        cnoremap jk <C-c>
 
         " Keep search results at the center of screen
-        nmap n nzz
-        nmap N Nzz
-        nmap * *zz
-        nmap # #zz
-        nmap g* g*zz
-        nmap g# g#zz
+        " nmap n nzz
+        " nmap N Nzz
+        " nmap * *zz
+        " nmap # #zz
+        " nmap g* g*zz
+        " nmap g# g#zz
+        
+        " better visual mode indentation
+        xnoremap < <gv
+        xnoremap > >gv
         " TODO: automaticaly set paste and use OSC52 escape sequence
 " }}}
 
