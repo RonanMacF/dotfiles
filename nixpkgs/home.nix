@@ -100,6 +100,7 @@
         vim-sandwich        # add/chanfe/remove {[("' around text objects
         vim-matchup         # matchit++ 
         vim-sleuth          # automatically figure out indentation from similar files
+        # vim-endwise         # ends certain structures automatically (if,functions etc) */
 
         # prog langs
         vim-go              # official go program 
@@ -113,7 +114,7 @@
         undotree            # saves undo history, TODO: look into yank history outside of 1-9 
         bclose-vim          # close buffers in a smart way, TODO: maybe look into buffer searcher 
         vim-peekaboo
-
+        vimspector
 
         vim-repeat
         vim-eunuch
