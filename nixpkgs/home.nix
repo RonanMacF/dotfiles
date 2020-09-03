@@ -102,6 +102,8 @@
         vim-matchup         # matchit++ 
         vim-sleuth          # automatically figure out indentation from similar files
         sideways-vim        # easy weapping of params/items in lists
+        vim-after-object    # Defines text objects to target text after the designated characters.
+
         # vim-endwise         # ends certain structures automatically (if,functions etc) */
 
         # prog langs
