@@ -116,6 +116,7 @@
         bclose-vim          # close buffers in a smart way, TODO: maybe look into buffer searcher 
         vim-peekaboo
         vimspector
+        devdocs-vim
 
         vim-repeat
         vim-eunuch
