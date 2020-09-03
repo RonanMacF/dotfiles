@@ -23,41 +23,41 @@
       # networking utilities
       # sshfs
       # traceroute
-      sshpass
-      wget
-      dnsutils
-      mtr
+      #sshpass
+      #wget
+      #dnsutils
+      #mtr
       
       # prog langs
       go
       gopls
       gcc
-      clang-tools
-      python3
-      python2
+      #clang-tools
+      #python3
+      #python2
       # python-language-server
 
       # tools
-      mosh
-      openssl
-      lsof
-      jq
-      # iotop
-      htop
+      #mosh
+      #openssl
+      #lsof
+      #jq
+      ## iotop
+      #htop
       git
       bat
-      colordiff
-      bandwhich
-      htop
+      #colordiff
+      #bandwhich
+      #htop
       fzf
       ripgrep
-      stow
-      lf
-      pistol
+      #stow
+      #lf
+      #pistol
       highlight
-      broot
-      fd
-      tig
+      #broot
+      #fd
+      #tig
     ];
 
     programs.neovim = {
