@@ -81,6 +81,7 @@
         vim-fugitive
         git-messenger-vim
         committia-vim
+        vim-twiggy
 
         # coc plugins
         coc-nvim
