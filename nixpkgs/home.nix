@@ -101,6 +101,7 @@
         vim-sandwich        # add/chanfe/remove {[("' around text objects
         vim-matchup         # matchit++ 
         vim-sleuth          # automatically figure out indentation from similar files
+        vim-sideways        # easy weapping of params/items in lists
         # vim-endwise         # ends certain structures automatically (if,functions etc) */
 
         # prog langs
