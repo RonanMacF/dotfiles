@@ -63,6 +63,7 @@
     programs.neovim = {
       enable = true;
       vimAlias = true;
+      package = pkgs.neovim-nightly;
       extraConfig = builtins.readFile ~/dotfiles/nvim/init.vim;
       plugins = with pkgs.vimPlugins; [
 
@@ -120,6 +121,7 @@
         vim-peekaboo
         vimspector
         devdocs-vim
+        vim-sneak
 
         vim-repeat
         vim-eunuch
