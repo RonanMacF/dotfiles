@@ -51,7 +51,7 @@
       #htop
       fzf
       ripgrep
-      #stow
+      stow
       #lf
       #pistol
       highlight
