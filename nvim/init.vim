@@ -27,11 +27,11 @@ endfor
 
         " Using double trailing slashes in the path tells vim to enable a feature where it avoids name collisions
         set undofile
-        set undodir=~/.config/nvim/undo//
+        set undodir=$HOME/.config/nvim/undo//
         set backup
         set writebackup
-        set backupdir=~/.config/nvim/backup//
-        set directory=~/.config/nvim/swap//
+        set backupdir=$HOME/.config/nvim/backup//
+        set directory=$HOME/.config/nvim/swap//
 " }}}
 
 " text formatting settings {{{
@@ -57,7 +57,6 @@ endfor
 	set sidescroll=3
 	set number relativenumber
         hi! TermCursorNC ctermfg=15 guifg=#fdf6e3 ctermbg=14 guibg=#93a1a1 cterm=NONE gui=NONE
-        let loaded_netrw = 0                                    " diable netew
         set noshowmode
         " Character to show before the lines that have been soft-wrapped
         set showbreak=↪
