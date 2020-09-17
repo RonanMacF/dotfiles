@@ -38,7 +38,7 @@
       # python-language-server
 
       # tools
-      #mosh
+      # mosh
       #openssl
       #lsof
       #jq
