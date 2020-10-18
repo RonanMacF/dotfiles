@@ -122,6 +122,7 @@
         vimspector
         devdocs-vim
         vim-sneak
+        nvim-treesitter
 
         vim-repeat
         vim-eunuch
