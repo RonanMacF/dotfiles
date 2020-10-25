@@ -139,12 +139,16 @@
     programs.tmux = {
       enable = true;
       historyLimit = 10000;
-      keyMode = "vi";
+      # keyMode = "vi";
       terminal = "screen-256color";
       extraConfig = builtins.readFile ~/dotfiles/tmux/.tmux.conf;
       plugins = with pkgs.tmuxPlugins; [
         resurrect
         continuum
+        gruvbox
+        vim-tmux-navigator
+        logging
+        prefix-highlight
       ];
     };
   }
