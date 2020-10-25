@@ -144,6 +144,7 @@
       extraConfig = builtins.readFile ~/dotfiles/tmux/.tmux.conf;
       plugins = with pkgs.tmuxPlugins; [
         resurrect
+        continuum
       ];
     };
   }
