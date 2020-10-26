@@ -62,6 +62,7 @@
       #fd
       #tig
       kitty
+      eternal-terminal
     ];
 
     programs.neovim = {
