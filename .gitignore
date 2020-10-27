@@ -1,3 +1,5 @@
 nvim/backup
 nvim/undo
 nvim/swap
+vimspector/
+tmux/resurrect

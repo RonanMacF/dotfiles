@@ -19,6 +19,9 @@
   # changes in each release.
   home.stateVersion = "20.09";
 
+  manual.manpages.enable = false;
+  #home.file."${config.xdg.configHome}/nvim/parser/c.so".source = "${pkgs.tree-sitter.builtGrammars.c}/parser";
+  
   home.packages = with pkgs; [
       # networking utilities
       # sshfs
@@ -58,6 +61,8 @@
       #broot
       #fd
       #tig
+      kitty
+      eternal-terminal
     ];
 
     programs.neovim = {
@@ -91,7 +96,7 @@
         coc-yaml
         coc-json
         coc-pairs
-        coc-go
+        # coc-go
         coc-fzf
         coc-highlight
         vista-vim
@@ -109,7 +114,9 @@
 
         # prog langs
         vim-go              # official go program 
-        semshi              # python sybtax highlighter 
+        # semshi              # python sybtax highlighter 
+        vim-nix
+
         # vim-polyglot      # syntac highlighing language pack
 
         # utilities
@@ -120,14 +127,29 @@
         bclose-vim          # close buffers in a smart way, TODO: maybe look into buffer searcher 
         vim-peekaboo
         vimspector
-        devdocs-vim
+        # devdocs-vim
         vim-sneak
-        nvim-treesitter
+        vim-tmux-navigator
 
         vim-repeat
         vim-eunuch
 
         # TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
+      ];
+    };
+
+    programs.tmux = {
+      enable = true;
+      historyLimit = 10000;
+      keyMode = "vi";
+      terminal = "screen-256color";
+      extraConfig = builtins.readFile ~/dotfiles/tmux/.tmux.conf;
+      plugins = with pkgs.tmuxPlugins; [
+        resurrect
+        continuum
+        vim-tmux-navigator
+        logging
+        prefix-highlight
       ];
     };
   }

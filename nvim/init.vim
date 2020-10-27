@@ -66,20 +66,7 @@ endfor
         set termguicolors " https://gist.github.com/XVilka/8346728
         " italicize comments  
         highlight Comment cterm=italic gui=italic            
-        " tmux cursor shape
-        if exists('$TMUX')
-                let &t_SI .= "\ePtmux;\e\e[=1c\e\\"
-                let &t_EI .= "\ePtmux;\e\e[=2c\e\\"
-        else
-                let &t_SI .= "\e[=1c"
-                let &t_EI .= "\e[=2c"
-        endif
         set fillchars=vert:│,fold:-
-        " Use a blinking upright bar cursor in Insert mode, a solid block in normal
-        " and a blinking underline in replace mode
-        let &t_SI = "\<Esc>[5 q"
-        let &t_SR = "\<Esc>[3 q"
-        let &t_EI = "\<Esc>[2 q"
         set whichwrap=b,s,<,>,[,] " make backspace, space and arrow keys work nrmally on wrapped lines
         set diffopt=filler,vertical
 " }}}
