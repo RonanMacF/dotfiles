@@ -11,6 +11,7 @@ endfor
 	set mouse=a                                 " Enable mouse usage, e.g. for resizing windows
         set shada=!,'100,f1,h,
 	set spelllang=en_gb
+        set spellfile=$HOME/dotfiles/nvim/spell/en.utf-8.add
 	set backspace=indent,eol,start
 	set wildmode=longest:full,full
         set wildoptions=pum
