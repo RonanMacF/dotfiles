@@ -37,7 +37,7 @@ endfor
 	set tabstop=8 softtabstop=4 shiftwidth=4    " Prefer spaces over tabs, width = 4, default behaviour
 	set expandtab
         set shiftround
-        set formatoptions=tcqn1j
+        set formatoptions=tcqn1j " note this is modified by filetype plugin
 " }}}
 
 " TTY Performance {{{
