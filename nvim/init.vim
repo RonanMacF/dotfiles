@@ -1,5 +1,3 @@
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
-let &packpath = &runtimepath
 " read custom plugin configurations
 for f in split(glob('~/dotfiles/nvim/plugins/*.vim'), '\n')
         exe 'source' f
