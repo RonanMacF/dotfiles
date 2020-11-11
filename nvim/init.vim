@@ -29,8 +29,11 @@ endfor
         set undodir=$HOME/.config/nvim/undo//
         set backup
         set writebackup
+        set backupcopy=yes " Overwrite the original backup file
         set backupdir=$HOME/.config/nvim/backup//
         set directory=$HOME/.config/nvim/swap//
+        "Meaningful backup name, ex: filename@2015-04-05.14:59
+        au BufWritePre * let &bex = '@' . strftime("%F.%H:%M")
 " }}}
 
 " text formatting settings {{{
