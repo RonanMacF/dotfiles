@@ -40,6 +40,7 @@
       #python2
       # python-language-server
 
+      # yapf
       # tools
       # mosh
       #openssl
@@ -70,6 +71,8 @@
        vimAlias = true;
        package = pkgs.neovim-nightly;
        extraConfig = builtins.readFile ~/dotfiles/nvim/init.vim;
+       extraPythonPackages = (ps: with ps; [ yapf python-language-server ]);
+       extraPython3Packages = (ps: with ps; [ yapf ]);
        plugins = with pkgs.vimPlugins; [
 
          # appearence
@@ -81,6 +84,7 @@
          vim-startify        # nice startup screen with MRU files
          vim-lastplace       # open file on last place the cursor was
          vim-signature
+         neoformat
 
          # source control
          vim-signify         # add source control symbols to the gutter and enable hunk jumping
