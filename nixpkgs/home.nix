@@ -118,7 +118,6 @@
 
          # prog langs
          vim-go              # official go program 
-         # semshi              # python sybtax highlighter 
          vim-nix
 
          # vim-polyglot      # syntac highlighing language pack
