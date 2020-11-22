@@ -137,6 +137,7 @@
          vim-repeat
          vim-eunuch
          LanguageTool-nvim
+         treesitter-nvim
 
         # TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
        ];
