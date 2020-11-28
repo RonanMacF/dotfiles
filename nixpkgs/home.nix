@@ -9,6 +9,7 @@
   home.username = "ronan";
   home.homeDirectory = "/Users/ronan";
 
+  
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
@@ -19,9 +20,6 @@
   # changes in each release.
   home.stateVersion = "20.09";
 
-  manual.manpages.enable = false;
-  #home.file."${config.xdg.configHome}/nvim/parser/c.so".source = "${pkgs.tree-sitter.builtGrammars.c}/parser";
-  
   home.packages = with pkgs; [
       # networking utilities
       # sshfs
@@ -40,30 +38,29 @@
       #python2
       # python-language-server
 
-      # yapf
-      # tools
-      # mosh
-      #openssl
-      #lsof
-      #jq
-      ## iotop
+       # tools
+       mosh
+      openssl
+      lsof
+      jq
+      # iotop
+      htop
+      git
+      bat
+      #colordiff
+      #bandwhich
       #htop
-      #git
-      #bat
-      ##colordiff
-      ##bandwhich
-      ##htop
-      #fzf
-      #ripgrep
-      #stow
-      ##lf
-      ##pistol
-      #highlight
-      ##broot
-      ##fd
-      ##tig
-      #kitty
-      #eternal-terminal
+      fzf
+      ripgrep
+      stow
+      #lf
+      #pistol
+      highlight
+      #broot
+      #fd
+      #tig
+      kitty
+      eternal-terminal
     ];
 
     programs.neovim = {
@@ -96,11 +93,7 @@
          # coc plugins
          coc-nvim
          coc-yank
-         coc-python
-         coc-yaml
-         coc-json
          coc-pairs
-         # coc-go
          coc-fzf
          coc-highlight
          vista-vim
@@ -138,16 +131,23 @@
          vim-eunuch
          LanguageTool-nvim
 
+         telescope-nvim
+         popup-nvim
+         plenary-nvim
+
          # treesitter plugins
          nvim-treesitter
          nvim-treesitter-refactor
          nvim-treesitter-textobjects
          completion-treesitter
 
+         # LSP plugins
+         nvim-lspconfig
+         completion-nvim
         # TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
        ];
     };
-
+     
      programs.tmux = {
        enable = true;
        historyLimit = 10000;

@@ -174,7 +174,6 @@ endfor
         au TermOpen,TermEnter,BufEnter * if &buftype == 'terminal' | :startinsert | endif
 " }}}
 
-
 " read work specific vimrc if exists
 if filereadable(expand("~/.vim/custom.vim"))
   execute "source " . "~/.vim/custom.vim"
@@ -204,4 +203,17 @@ require'nvim-treesitter.configs'.setup {
       enable = true
    },
 }
+EOF
+
+
+lua << EOF
+  local nvim_lsp = require('lspconfig')
+  -- use completion in every buffer
+  require'completion'.on_attach()
+
+  local servers = {'gopls', 'sumneko_lua', 'vimls', 'jsonls', 'bashls',
+  'rnix', 'yamlls', 'pyright'}
+  for _, lsp in ipairs(servers) do
+    nvim_lsp[lsp].setup {}
+  end
 EOF
