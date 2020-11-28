@@ -15,7 +15,9 @@ let g:completion_trigger_keyword_length = 2
 let g:completion_enable_auto_paren = 1 
 " auto-change source when current source has no completions available
 let g:completion_auto_change_source = 1
-" let g:completion_word_ignored_ft - [ "log", "txt" ] " dont use ft for buffers source
+let g:completion_confirm_key = "\<C-y>"
+
+" " let g:completion_word_ignored_ft - [ "log", "txt" ] " dont use ft for buffers source
 
 " Chain completion list
 let g:completion_chain_complete_list = {
@@ -30,8 +32,3 @@ let g:completion_chain_complete_list = {
 " change completion sources
 imap  <c-j> <Plug>(completion_next_source)
 imap  <c-k> <Plug>(completion_prev_source)
-
-"   - snippet parsing, either with plugin or vim-vsnip/vim-vsnip-integ
-" 
-" possible value: 'UltiSnips', 'Neosnippet', 'vim-vsnip', 'snippets.nvim'
-" let g:completion_enable_snippet = 'UltiSnips'
