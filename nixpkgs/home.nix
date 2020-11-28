@@ -144,6 +144,7 @@
          # LSP plugins
          nvim-lspconfig
          completion-nvim
+         completion-buffers # add words from buffers to completion
         # TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
        ];
     };
