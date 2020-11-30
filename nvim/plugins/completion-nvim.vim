@@ -23,7 +23,7 @@ let g:completion_confirm_key = "\<C-y>"
 let g:completion_chain_complete_list = {
             \ 'default' : {
             \   'default': [
-            \       {'complete_items': ['lsp', 'ts', 'buffers']},
+            \       {'complete_items': ['lsp', 'ts']},
             \       {'mode': '<c-p>'},
             \       {'mode': '<c-n>'}],
             \   'comment': [],

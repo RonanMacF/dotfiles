@@ -179,8 +179,8 @@ if filereadable(expand("~/.vim/custom.vim"))
   execute "source " . "~/.vim/custom.vim"
 endif
 
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
+" set foldmethod=expr
+" set foldexpr=nvim_treesitter#foldexpr()
 " echo nvim_treesitter#statusline(90)  " 90 can be any length
 " module->expression_statement->call->identifier
 
@@ -189,6 +189,10 @@ require'nvim-treesitter.configs'.setup {
   ensure_installed = "all", 
   highlight = {
     enable = true,              -- false will disable the whole extension
+  },
+  rainbow = {
+    enable = true,
+    disable = {'bash'} -- please disable bash until I figure #1 out
   },
   incremental_selection = {
       enable = true,
@@ -276,6 +280,7 @@ EOF
 
 lua << EOF
   local nvim_lsp = require('lspconfig')
+  vim.lsp.set_log_level("debug")
   -- use completion in every buffer
   require'completion'.on_attach()
 

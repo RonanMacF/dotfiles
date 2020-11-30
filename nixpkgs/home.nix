@@ -75,7 +75,6 @@
          # appearence
          gruvbox-community   # colorscheme 
          indentLine          # display line indentation markers 
-         rainbow             # highlight matching parentheses in different colors 
          vim-airline         # add a nice status bar
          vim-devicons        # add some nice icons, makes things a bit prettier
          vim-startify        # nice startup screen with MRU files
@@ -91,12 +90,12 @@
          vim-twiggy
 
          # coc plugins
-         coc-nvim
-         coc-yank
-         coc-pairs
-         coc-fzf
-         coc-highlight
-         vista-vim
+         # coc-nvim
+         # coc-yank
+         # coc-pairs
+         # coc-fzf
+         # coc-highlight
+         # vista-vim
 
          # text formatting
          vim-commentary      # easilt do comments
@@ -131,20 +130,25 @@
          vim-eunuch
          LanguageTool-nvim
 
+         # telescope plins
          telescope-nvim
          popup-nvim
          plenary-nvim
 
          # treesitter plugins
          nvim-treesitter
+         nvim-ts-rainbow
          nvim-treesitter-refactor
          nvim-treesitter-textobjects
-         completion-treesitter
 
          # LSP plugins
          nvim-lspconfig
+
+         # completion plugins
          completion-nvim
          completion-buffers # add words from buffers to completion
+         completion-treesitter
+
         # TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
        ];
     };
