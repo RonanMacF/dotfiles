@@ -163,6 +163,7 @@
          resurrect
          continuum
          vim-tmux-navigator
+         vim-tmux-focus-events
          logging
          prefix-highlight
        ];
