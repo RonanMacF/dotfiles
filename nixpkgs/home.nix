@@ -19,7 +19,6 @@
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.stateVersion = "20.09";
-
   home.packages = with pkgs; [
       # networking utilities
       # sshfs
@@ -42,10 +41,9 @@
        mosh
       openssl
       lsof
-      jq
+      fd
       # iotop
       htop
-      git
       bat
       #colordiff
       #bandwhich
@@ -58,9 +56,17 @@
       highlight
       #broot
       #fd
-      #tig
       kitty
       eternal-terminal
+
+      # json processing
+      jq
+      fx
+
+      # source management
+      tig
+
+      gcalcli
     ];
 
     programs.neovim = {
@@ -68,8 +74,6 @@
        vimAlias = true;
        package = pkgs.neovim-nightly;
        extraConfig = builtins.readFile ~/dotfiles/nvim/init.vim;
-       extraPythonPackages = (ps: with ps; [ yapf python-language-server ]);
-       extraPython3Packages = (ps: with ps; [ yapf ]);
        plugins = with pkgs.vimPlugins; [
 
          # appearence
@@ -168,4 +172,81 @@
          prefix-highlight
        ];
      };
+
+    programs.zsh = {
+      enable = true;
+      enableAutosuggestions = true;
+      autocd = true; # automatically cd into directory if typed directly into shell
+      defaultKeymap = "viins";
+      dotDir = "dotfiles/zsh";
+      plugins = with pkgs; [
+      {
+        name = "powerlevel10k";
+        src = fetchFromGitHub {
+          owner = "romkatv";
+          repo = "powerlevel10k";
+          rev = "b7d90c84671183797bdec17035fc2d36b5d12292";
+          sha256 = "0nzvshv3g559mqrlf4906c9iw4jw8j83dxjax275b2wi8ix0wgmj";
+        };
+      }
+      {
+        name = "zsh-syntax-highlighting";
+        src = fetchFromGitHub {
+          owner = "zsh-users";
+          repo = "zsh-syntax-highlighting";
+          rev = "0.6.0";
+          sha256 = "0zmq66dzasmr5pwribyh4kbkk23jxbpdw4rjxx0i7dx8jjp2lzl4";
+        };
+        file = "zsh-syntax-highlighting.zsh";
+      }
+      {
+        name = "zsh-autopair";
+        src = fetchFromGitHub {
+          owner = "hlissner";
+          repo = "zsh-autopair";
+          rev = "34a8bca0c18fcf3ab1561caef9790abffc1d3d49";
+          sha256 = "1h0vm2dgrmb8i2pvsgis3lshc5b0ad846836m62y8h3rdb3zmpy1";
+        };
+        file = "autopair.zsh";
+      }
+    ];
+      prezto = {
+	enable = true;
+	caseSensitive = false;
+        prompt = {
+          theme = "powerlevel10k";
+        };
+        tmux = {
+          autoStartRemote = true;
+          autoStartLocal = true;
+        };
+     };
+     initExtra = ''
+       if [ -e /Users/ronan/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/ronan/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer 
+       POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+       export EDITOR=nvim
+     '';
+    };
+   
+   programs.git = {
+      enable = true;
+      package = pkgs.gitAndTools.gitFull;
+      delta = { enable = true; };
+    };
+
+    programs.command-not-found = {
+      enable = true;
+    };
+
+    programs.fzf = {
+      enable = true;
+      enableZshIntegration = true;
+      changeDirWidgetCommand = "fd --type d";
+    };
+
+    programs.kitty = {
+      enable = true;
+    };
   }
+
+

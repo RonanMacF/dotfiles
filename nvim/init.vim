@@ -179,114 +179,117 @@ if filereadable(expand("~/.vim/custom.vim"))
   execute "source " . "~/.vim/custom.vim"
 endif
 
-" set foldmethod=expr
-" set foldexpr=nvim_treesitter#foldexpr()
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 " echo nvim_treesitter#statusline(90)  " 90 can be any length
 " module->expression_statement->call->identifier
 
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all", 
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-  },
-  rainbow = {
-    enable = true,
-    disable = {'bash'} -- please disable bash until I figure #1 out
-  },
-  incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = "gnn",
-        node_incremental = "grn",
-        scope_incremental = "grc",
-        node_decremental = "grm",
-     },
-   },
-   indent = {
-      enable = true
-   },
-   -- nvim-treesitter-refactor
-    refactor = {
-    highlight_definitions = { enable = true },
-    highlight_current_scope = { enable = true },
-    smart_rename = {
-      enable = true,
-      keymaps = {
-        smart_rename = "grr",
-      },
-    },
-    navigation = {
-      enable = true,
-      keymaps = {
-        goto_definition_lsp_fallback = "gnd",
-        list_definitions = "gnD",
-        list_definitions_toc = "gO",
-        goto_next_usage = "<a-*>",
-        goto_previous_usage = "<a-#>",
-      },
-    },
-  },
-  -- nvim-treesitter-textobjects
-  textobjects = {
-    select = {
-      enable = true,
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
-    },
-  swap = {
-      enable = true,
-      swap_next = {
-        ["<leader>a"] = "@parameter.inner",
-      },
-      swap_previous = {
-        ["<leader>A"] = "@parameter.inner",
-      },
-    },
-  move = {
-      enable = true,
-      goto_next_start = {
-        ["]m"] = "@function.outer",
-        ["]]"] = "@class.outer",
-      },
-      goto_next_end = {
-        ["]M"] = "@function.outer",
-        ["]["] = "@class.outer",
-      },
-      goto_previous_start = {
-        ["[m"] = "@function.outer",
-        ["[["] = "@class.outer",
-      },
-      goto_previous_end = {
-        ["[M"] = "@function.outer",
-        ["[]"] = "@class.outer",
-      },
-    },
-  lsp_interop = {
-      enable = true,
-      peek_definition_code = {
-        ["df"] = "@function.outer",
-        ["dF"] = "@class.outer",
-      },
-    },
-  },
-}
-EOF
-
+" lua <<EOF
+" require'nvim-treesitter.configs'.setup {
+"   ensure_installed = "all", 
+"   highlight = {
+"     enable = true,              -- false will disable the whole extension
+"   },
+"   rainbow = {
+"     enable = true,
+"     disable = {'bash'} -- please disable bash until I figure #1 out
+"   },
+"   incremental_selection = {
+"       enable = true,
+"       keymaps = {
+"         init_selection = "gnn",
+"         node_incremental = "grn",
+"         scope_incremental = "grc",
+"         node_decremental = "grm",
+"      },
+"    },
+"    indent = {
+"       enable = true
+"    },
+"    -- nvim-treesitter-refactor
+"     refactor = {
+"     highlight_definitions = { enable = true },
+"     highlight_current_scope = { enable = true },
+"     smart_rename = {
+"       enable = true,
+"       keymaps = {
+"         smart_rename = "grr",
+"       },
+"     },
+"     navigation = {
+"       enable = true,
+"       keymaps = {
+"         goto_definition_lsp_fallback = "gnd",
+"         list_definitions = "gnD",
+"         list_definitions_toc = "gO",
+"         goto_next_usage = "<a-*>",
+"         goto_previous_usage = "<a-#>",
+"       },
+"     },
+"   },
+"   -- nvim-treesitter-textobjects
+"   textobjects = {
+"     select = {
+"       enable = true,
+"       keymaps = {
+"         -- You can use the capture groups defined in textobjects.scm
+"         ["af"] = "@function.outer",
+"         ["if"] = "@function.inner",
+"         ["ac"] = "@class.outer",
+"         ["ic"] = "@class.inner",
+"       },
+"     },
+"   swap = {
+"       enable = true,
+"       swap_next = {
+"         ["<leader>a"] = "@parameter.inner",
+"       },
+"       swap_previous = {
+"         ["<leader>A"] = "@parameter.inner",
+"       },
+"     },
+"   move = {
+"       enable = true,
+"       goto_next_start = {
+"         ["]m"] = "@function.outer",
+"         ["]]"] = "@class.outer",
+"       },
+"       goto_next_end = {
+"         ["]M"] = "@function.outer",
+"         ["]["] = "@class.outer",
+"       },
+"       goto_previous_start = {
+"         ["[m"] = "@function.outer",
+"         ["[["] = "@class.outer",
+"       },
+"       goto_previous_end = {
+"         ["[M"] = "@function.outer",
+"         ["[]"] = "@class.outer",
+"       },
+"     },
+"   lsp_interop = {
+"       enable = true,
+"       peek_definition_code = {
+"         ["df"] = "@function.outer",
+"         ["dF"] = "@class.outer",
+"       },
+"     },
+"   },
+" }
+" EOF
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 lua << EOF
   local nvim_lsp = require('lspconfig')
   vim.lsp.set_log_level("debug")
   -- use completion in every buffer
   require'completion'.on_attach()
 
-  local servers = {'gopls', 'sumneko_lua', 'vimls', 'jsonls', 'bashls',
-  'rnix', 'yamlls', 'pyright'}
-  for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {}
-  end
+  require'lspconfig'.pyright.setup{on_attach=require'completion'.on_attach}
+
 EOF
