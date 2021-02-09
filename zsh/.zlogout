@@ -1,1 +1,1 @@
-/nix/store/fpnmbckqdshi2qx7zg6nf0vlxlxhqq8g-home-manager-files/dotfiles/zsh/.zlogout
+/nix/store/z665pnz950w3kkakkpvkgn65i6bnwf4g-home-manager-files/dotfiles/zsh/.zlogout
