@@ -166,6 +166,7 @@
        plugins = with pkgs.tmuxPlugins; [
          sensible # sane tmux defaults
          sessionist # makes sessions management that bit easier
+         pain-control # edit tmux panes with ease
 
          resurrect
          continuum
