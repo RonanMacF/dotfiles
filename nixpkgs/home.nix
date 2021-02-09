@@ -164,6 +164,8 @@
        terminal = "screen-256color";
        extraConfig = builtins.readFile ~/dotfiles/tmux/.tmux.conf;
        plugins = with pkgs.tmuxPlugins; [
+         sessionist # makes sessions management that bit easier
+
          resurrect
          continuum
          vim-tmux-navigator
