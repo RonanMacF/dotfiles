@@ -1,1 +1,1 @@
-/nix/store/65scd121qvaydpr7wp0z30mjlkd7rbji-home-manager-files/dotfiles/zsh/.zprofile
+/nix/store/5cdfcrsdgj8pnhym4fgc1f49jnnp7zpv-home-manager-files/dotfiles/zsh/.zprofile
