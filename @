@@ -169,9 +169,12 @@
          sessionist # makes sessions management that bit easier
          pain-control # edit tmux panes with ease
 
+         yank
+
          resurrect
          continuum
          vim-tmux-navigator
+         vim-tmux-focus-events
          logging
          prefix-highlight
        ];
