@@ -172,7 +172,6 @@
          resurrect
          continuum
          vim-tmux-navigator
-         prefix-highlight
        ];
      };
 
