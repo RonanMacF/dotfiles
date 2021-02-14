@@ -69,6 +69,7 @@
 
       gcalcli
       _1password
+      trash-cli
     ];
 
     programs.neovim = {
