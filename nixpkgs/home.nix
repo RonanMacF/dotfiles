@@ -39,7 +39,7 @@
       # python-language-server
 
        # tools
-       mosh
+       # mosh
       openssl
       lsof
       fd
@@ -68,6 +68,7 @@
       tig
 
       gcalcli
+      _1password
     ];
 
     programs.neovim = {
