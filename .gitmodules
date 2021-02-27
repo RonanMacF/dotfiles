@@ -4,3 +4,6 @@
 [submodule "tmux/plugins/tmux-fzf"]
 	path = tmux/plugins/tmux-fzf
 	url = https://github.com/sainnhe/tmux-fzf
+[submodule "tmux/tmux/plugins/tmux-logging"]
+	path = tmux/tmux/plugins/tmux-logging
+	url = https://github.com/tmux-plugins/tmux-logging
