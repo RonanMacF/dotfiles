@@ -172,9 +172,9 @@
          resurrect # resume tmux session when system restarts
          continuum # routinely saves the tmux state
          copycat # nifty predefined searches
+         tmux-fzf
          # logging
          # tmuxinator
-         # tmux-fzf
        ];
      };
 
