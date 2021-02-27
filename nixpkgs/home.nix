@@ -162,18 +162,19 @@
      
      programs.tmux = {
        enable = true;
-       historyLimit = 10000;
        keyMode = "vi";
-       terminal = "screen-256color";
        extraConfig = builtins.readFile ~/dotfiles/tmux/.tmux.conf;
        plugins = with pkgs.tmuxPlugins; [
          sensible # sane tmux defaults
          sessionist # makes sessions management that bit easier
          pain-control # edit tmux panes with ease
-
-         resurrect
-         continuum
-         vim-tmux-navigator
+         vim-tmux-navigator # naviagate into vim panes with ease 
+         resurrect # resume tmux session when system restarts
+         continuum # routinely saves the tmux state
+         copycat # nifty predefined searches
+         # logging
+         # tmuxinator
+         # tmux-fzf
        ];
      };
 
