@@ -3,3 +3,4 @@ nvim/undo
 nvim/swap
 vimspector/
 tmux/resurrect
+tmux/logging
