@@ -29,9 +29,12 @@
       #dnsutils
       #mtr
       
+      # language-servers
+      nodePackages.pyright
+      gopls
+
       # prog langs
       # go
-      # gopls
       # gcc
       #clang-tools
       #python3
