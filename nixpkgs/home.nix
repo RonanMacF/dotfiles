@@ -156,6 +156,7 @@
          completion-buffers # add words from buffers to completion
          completion-treesitter
 
+         vimux
         # TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
        ];
     };
