@@ -20,7 +20,6 @@
   # changes in each release.
   home.stateVersion = "20.09";
   home.packages = with pkgs; [
-      tmuxinator
       # networking utilities
       # sshfs
       # traceroute
@@ -39,29 +38,32 @@
       #clang-tools
       #python3
       #python2
-      # python-language-server
 
        # tools
        # mosh
       openssl
       lsof
-      fd
       # iotop
       htop
       bat
       #colordiff
       #bandwhich
       #htop
-      fzf
       ripgrep
       stow
       #lf
-      #pistol
       highlight
       #broot
-      #fd
       kitty
       eternal-terminal
+
+      # file management
+      trash-cli # recover delete items :)
+      fd # rust powered file finder
+      fzf # fuzzy finder we all know
+      fzy # fuzzy finder which is debatedly better
+      nnn # powerful file manager
+      pistol
 
       # json processing
       jq
@@ -70,9 +72,12 @@
       # source management
       tig
 
+      # utilities
+      _1password # password management
       gcalcli
-      _1password
-      trash-cli
+
+      # tmux
+      tmuxinator
     ];
 
     programs.neovim = {
