@@ -31,6 +31,8 @@
       # language-servers
       nodePackages.pyright
       gopls
+      rnix-lsp
+      # sumneko-lua-language-server
 
       # prog langs
       # go
@@ -63,6 +65,7 @@
       fzf # fuzzy finder we all know
       fzy # fuzzy finder which is debatedly better
       nnn # powerful file manager
+      lf
       pistol
 
       # json processing
