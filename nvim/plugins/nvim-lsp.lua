@@ -98,3 +98,59 @@ require'lspconfig'.sumneko_lua.setup {
     },
   },
 }
+
+
+-- Example configuations here: https://github.com/mattn/efm-langserver
+-- python
+local pylint = {
+    LintCommand = "flake8 --ignore=E501 --stdin-display-name ${INPUT} -",
+    lintStdin = true,
+    lintFormats = {"%f:%l:%c: %m"}
+}
+ -- python
+local pylint = {
+              lintCommand = "pylint -d C0116 -d C0114 -d W0311 -j 1 --from-stdin ${INPUT} --score no --msg-template '{path}:{line}:{column}:{C} {msg_id} {msg} ({symbol}) -- PL' | sed -e 's/:I\\s/:H /' -e 's/:[CR]\\s/:I /' -e '/C0103/d'",
+              lintIgnoreExitCode = true,
+              lintStdin = true,
+              lintDebounce = 5,
+              lintFormats = {"%f:%l:%c:%t %m"},
+              onSave = true,
+          }
+local isort = {formatCommand = "isort --force-sort-within-sections --quiet -", formatStdin = true}
+local yapf = {formatCommand = "yapf --quiet --style='{based_on_style: pep8, column_limit=85, continuation_indent_width=3, indent_width=3, space_inside_brackets=True}'", formatStdin = true}
+-- lua
+local luaFormat = {
+    formatCommand = "lua-format -i --no-keep-simple-function-one-line --column-limit=120",
+    formatStdin = true
+}
+-- JavaScript/React/TypeScript
+local prettier = {formatCommand = "./node_modules/.bin/prettier --stdin-filepath ${INPUT}", formatStdin = true}
+
+local prettier_yaml = {formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}
+
+local shellcheck = {
+    LintCommand = 'shellcheck -f gcc -x',
+    lintFormats = {'%f:%l:%c: %trror: %m', '%f:%l:%c: %tarning: %m', '%f:%l:%c: %tote: %m'}
+}
+
+local shfmt = {
+  formatCommand = 'shfmt -ci -s -bn',
+  formatStdin = true
+}
+
+
+
+require"lspconfig".efm.setup {
+    init_options = {documentFormatting = true, codeAction = false},
+    filetypes = {"lua", "python", "sh", "json", "yaml"},
+    settings = {
+        rootMarkers = {".git/"},
+        languages = {
+            lua = {luaFormat},
+            python = {isort, yapf, pylint},
+            sh = {shellcheck, shfmt},
+            json = {prettier},
+            yaml = {prettier_yaml},
+        }
+    }
+}

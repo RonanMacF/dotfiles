@@ -154,10 +154,10 @@
          plenary-nvim
 
          # treesitter plugins
-         nvim-treesitter
-         nvim-ts-rainbow
-         nvim-treesitter-refactor
-         nvim-treesitter-textobjects
+         # nvim-treesitter
+         # nvim-ts-rainbow
+         # nvim-treesitter-refactor
+         # nvim-treesitter-textobjects
 
          # LSP plugins
          nvim-lspconfig
@@ -165,7 +165,8 @@
          # completion plugins
          completion-nvim
          completion-buffers # add words from buffers to completion
-         completion-treesitter
+         # completion-treesitter
+
 
          vimux
         # TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
