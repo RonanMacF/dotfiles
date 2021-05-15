@@ -5,6 +5,8 @@ endfor
 for f in split(glob('~/dotfiles/nvim/plugins/*.lua'), '\n')
         exe 'luafile' f
 endfor
+exe 'luafile ~/dotfiles/nvim/utils.lua'
+
 
 " system settings {{{
 	set shell=/bin/zsh                          " Prefer zsh for shell-related tasks
