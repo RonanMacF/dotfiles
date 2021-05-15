@@ -17,7 +17,7 @@ endfor
 	set wildmode=longest:full,full
         set wildoptions=pum
 	set splitbelow splitright
-        let g:netrw_dirhistmax = 0                  " Prevent .netrwhist file from being created
+        let g:netrw_dirhistmax= 0                  " Prevent .netrwhist file from being created
         set clipboard+=unnamedplus
         " set foldmethod=marker
         set autoread
@@ -183,4 +183,4 @@ endfor
 " read work specific vimrc if exists
 if filereadable(expand("~/.vim/custom.vim"))
   execute "source " . "~/.vim/custom.vim"
-endif
+endif 
