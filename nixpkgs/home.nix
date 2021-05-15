@@ -149,6 +149,7 @@
           # devdocs-vim
           vim-sneak
           vim-tmux-navigator
+          barbar-nvim
 
           vim-repeat
           vim-eunuch
@@ -167,7 +168,6 @@
 
          # LSP plugins
           nvim-lspconfig
-
 
          # # completion plugins
           nvim-compe
