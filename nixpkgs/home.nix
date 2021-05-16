@@ -147,7 +147,6 @@
           vim-peekaboo
           vimspector
           # devdocs-vim
-          vim-sneak
           vim-tmux-navigator
           barbar-nvim
 
