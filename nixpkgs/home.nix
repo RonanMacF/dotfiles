@@ -81,6 +81,9 @@
 
       # tmux
       tmuxinator
+
+      # debug adapters
+      python3Packages.debugpy
     ];
 
 
@@ -170,6 +173,10 @@
 
          # # completion plugins
           nvim-compe
+
+          # debugging plugins
+          nvim-dap
+          nvim-dap-virtual-text
 
           vimux
         # TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
