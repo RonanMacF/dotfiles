@@ -21,7 +21,6 @@ exe 'luafile ~/dotfiles/nvim/utils.lua'
 	set splitbelow splitright
         let g:netrw_dirhistmax= 0                  " Prevent .netrwhist file from being created
         set clipboard+=unnamedplus
-        " set foldmethod=marker
         set autoread
 
         " encoding
@@ -49,6 +48,7 @@ exe 'luafile ~/dotfiles/nvim/utils.lua'
         " use treesitter folding
         set foldmethod=expr
         set foldexpr=nvim_treesitter#foldexpr()
+        set foldlevelstart=2
 " }}}
 
 " TTY Performance {{{

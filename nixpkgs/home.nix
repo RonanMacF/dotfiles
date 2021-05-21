@@ -107,7 +107,6 @@
           vim-startify        # nice startup screen with MRU files
           vim-lastplace       # open file on last place the cursor was
           vim-signature
-          neoformat
 
          # source control
           vim-signify         # add source control symbols to the gutter and enable hunk jumping
@@ -115,13 +114,6 @@
           git-messenger-vim
           committia-vim
           vim-twiggy
-
-         # coc plugins
-         # coc-nvim
-         # coc-yank
-         # coc-pairs
-         # coc-fzf
-         # coc-highlight
          # vista-vim
 
          # text formatting
@@ -138,8 +130,6 @@
          # prog langs
           vim-go              # official go program 
           vim-nix
-
-         # vim-polyglot      # syntac highlighing language pack
 
          # utilities
           fzf-vim             # fzf functionality in vim 
