@@ -4,7 +4,7 @@ vim.o.completeopt = "menuone,noselect"
 require'compe'.setup {
     enabled = true,
     autocomplete = true,
-    min_length = 2,
+    min_length = 1,
     source = {
       path = true;
       buffer = true;
@@ -12,7 +12,6 @@ require'compe'.setup {
       nvim_lsp = true;
       nvim_lua = true;
       vsnip = true;
-      emoji = true;
       spell = true;
     }
 }
