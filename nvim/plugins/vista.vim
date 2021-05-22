@@ -1,5 +1,5 @@
 " Executive used when opening vista sidebar without specifying it.
-let g:vista_default_executive = 'coc'
+let g:vista_default_executive = 'nvim_lsp'
 " keep alternate buffer when moving into vista buffer
 let g:vista_sidebar_keepalt = 1
 
