@@ -6,6 +6,7 @@ for f in split(glob('~/dotfiles/nvim/plugins/*.lua'), '\n')
         exe 'luafile' f
 endfor
 exe 'luafile ~/dotfiles/nvim/utils.lua'
+exe 'luafile ~/dotfiles/nvim/augroups.lua'
 
 
 " system settings {{{

@@ -192,21 +192,21 @@ gls.left = {
         provider = 'DiffRemove',
         condition = condition.hide_in_width,
         icon = '  ',
-        highlight = {cl.red, cl.bg}
+        highlight = {cl.red, cl.bg},
+        separator = sep.right,
+        separator_highlight = 'GalaxyViModeInv',
     }
+    },
+    {
+    Vista = {
+        provider = 'VistaPlugin',
+        highlight = {cl.fg, cl.bg},
+        },
     },
 }
 
 
 gls.right = {
-    {
-    Vista = {
-        provider = 'VistaPlugin',
-        highlight = {cl.fg, cl.bg},
-        -- separator = sep.right,
-        -- separator_highlight = 'GalaxyViModeInv',
-        },
-    },
     {
     ShowLspClient = {
             provider = 'GetLspClient',
@@ -218,6 +218,12 @@ gls.right = {
             highlight = {cl.fg, cl.bg},
             separator = sep.left,
             separator_highlight = 'GalaxyViModeInv',
+        }
+     },
+    {
+    whitespace = {
+            provider = function () return ' ' end,
+            highlight = {cl.fg, cl.bg},
         }
      },
      {
@@ -244,6 +250,10 @@ gls.right = {
                 return string.format('  %s %d ', icons.lsp_error, n)
             end,
             highlight = {cl.vivid_blue, cl.bg},
+        },
+        DiagnosticInfo = {
+            provider = 'DiagnosticInfo',
+            highlight = {cl.fg, cl.bg},
         },
     }, {
         FileType = {
