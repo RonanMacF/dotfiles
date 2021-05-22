@@ -124,6 +124,7 @@
           vim-sleuth          # automatically figure out indentation from similar files
           sideways-vim        # easy weapping of params/items in lists
           vim-after-object    # Defines text objects to target text after the designated characters.
+          nvim-autopairs
 
          # vim-endwise         # ends certain structures automatically (if,functions etc) */
 
@@ -132,6 +133,7 @@
           vim-nix
 
          # utilities
+          which-key-nvim 
           fzf-vim             # fzf functionality in vim 
           vim-smoothie        # smooth scrolling 
           vim-unimpaired      # nicer mapping 
