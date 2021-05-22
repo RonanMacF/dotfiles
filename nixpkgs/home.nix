@@ -41,6 +41,10 @@
       #python3
       #python2
 
+      # golang
+      gofumpt
+      goimports
+
        # tools
        # mosh
       openssl
