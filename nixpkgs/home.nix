@@ -102,8 +102,8 @@
 
          # appearence
           gruvbox-community   # colorscheme 
-          vim-airline         # add a nice status bar
-          vim-devicons        # add some nice icons, makes things a bit prettier
+          galaxyline-nvim     # add a nice status bar
+          nvim-web-devicons   # add some nice icons, makes things a bit prettier
           vim-startify        # nice startup screen with MRU files
           vim-lastplace       # open file on last place the cursor was
           vim-signature
@@ -114,7 +114,7 @@
           git-messenger-vim
           committia-vim
           vim-twiggy
-         # vista-vim
+         vista-vim
 
          # text formatting
           vim-commentary      # easilt do comments
