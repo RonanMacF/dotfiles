@@ -112,6 +112,7 @@
           vim-lastplace       # open file on last place the cursor was
           vim-signature
           scrollbar-nvim
+          hiPairs
 
          # source control
           vim-signify         # add source control symbols to the gutter and enable hunk jumping
