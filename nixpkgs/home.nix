@@ -176,6 +176,8 @@
           # debugging plugins
           nvim-dap
           nvim-dap-virtual-text
+          nvim-dap-ui
+          telescope-dap-nvim
 
           vimux
         # TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
