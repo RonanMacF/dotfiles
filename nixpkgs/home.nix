@@ -18,7 +18,7 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "20.09";
+  home.stateVersion = "21.05";
   home.packages = with pkgs; [
       # networking utilities
       # sshfs
@@ -111,6 +111,7 @@
           vim-startify        # nice startup screen with MRU files
           vim-lastplace       # open file on last place the cursor was
           vim-signature
+          scrollbar-nvim
 
          # source control
           vim-signify         # add source control symbols to the gutter and enable hunk jumping
