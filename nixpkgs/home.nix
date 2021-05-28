@@ -88,6 +88,7 @@
 
       # debug adapters
       python3Packages.debugpy
+      pythonPackages.debugpy
     ];
 
 
