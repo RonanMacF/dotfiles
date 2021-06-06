@@ -170,6 +170,7 @@
          # LSP plugins
           nvim-lspconfig
           lspsaga-nvim
+          lsp_signature-nvim
 
          # # completion plugins
           nvim-compe
