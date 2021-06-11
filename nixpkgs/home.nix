@@ -180,6 +180,8 @@
           nvim-dap-virtual-text
           nvim-dap-ui
           telescope-dap-nvim
+          vim-test
+          vim-ultest
 
           vimux
         # TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
