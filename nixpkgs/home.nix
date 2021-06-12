@@ -107,6 +107,8 @@
 
          # appearence
           gruvbox-community   # colorscheme 
+          sonokai
+          moonlight-nvim
           galaxyline-nvim     # add a nice status bar
           nvim-web-devicons   # add some nice icons, makes things a bit prettier
           vim-startify        # nice startup screen with MRU files

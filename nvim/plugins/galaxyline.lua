@@ -3,7 +3,8 @@ local condition = require 'galaxyline.condition'
 local fileinfo = require 'galaxyline.provider_fileinfo'
 gl.short_line_list = {
     'startify', 'undotree', 'fugitive', 'fugitiveblame', 'startuptime',
-    'NvimTree', 'vista', 'dbui', 'packer'
+    'NvimTree', 'vista', 'dbui', 'packer', "dapui_scopes", "dapui_stacks",
+       "dapui_watches", "dapui_breakpoints",
 }
 
 local cl = {

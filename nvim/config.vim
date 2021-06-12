@@ -1,3 +1,4 @@
+colorscheme gruvbox
 " read custom plugin configurations
 for f in split(glob('~/dotfiles/nvim/plugins/*.vim'), '\n')
         exe 'source' f
@@ -5,6 +6,7 @@ endfor
 for f in split(glob('~/dotfiles/nvim/plugins/*.lua'), '\n')
         exe 'luafile' f
 endfor
+exe 'source ~/dotfiles/nvim/utils.vim'
 exe 'luafile ~/dotfiles/nvim/utils.lua'
 exe 'luafile ~/dotfiles/nvim/augroups.lua'
 
@@ -60,7 +62,6 @@ exe 'luafile ~/dotfiles/nvim/augroups.lua'
 " }}}
 
 " appearence {{{
-	colorscheme gruvbox
 	set t_Co=256
 	set cursorline
 	set title                                   " Set window title
@@ -168,7 +169,7 @@ exe 'luafile ~/dotfiles/nvim/augroups.lua'
         " source vimrc when edited
         augroup Vimrc
             autocmd! bufwritepost .vimrc source $MYVIMRC
-        augroup ENDV
+        augroup END
 
         " relative numbers on normal mode only
         augroup numbertoggle
@@ -187,3 +188,29 @@ exe 'luafile ~/dotfiles/nvim/augroups.lua'
 if filereadable(expand("~/.vim/custom.vim"))
   execute "source " . "~/.vim/custom.vim"
 endif 
+
+augroup loadColors
+                autocmd BufEnter * :call SetColours()
+augroup END
+
+function! SetColours()
+  hi default link DapUIVariable Normal
+  hi default DapUIScope guifg=#00F1F5
+  hi default DapUIType guifg=#D484FF
+  hi default DapUIDecoration guifg=#00F1F5
+  hi default DapUIThread guifg=#A9FF68
+  hi default DapUIStoppedThread guifg=#00f1f5
+  hi default link DapUIFrameName Normal
+  hi default DapUISource guifg=#D484FF
+  hi default DapUILineNumber guifg=#00f1f5
+  hi default DapUIFloatBorder guifg=#00F1F5
+  hi default DapUIWatchesHeader guifg=#00F1F5
+  hi default DapUIWatchesEmpty guifg=#F70067
+  hi default DapUIWatchesValue guifg=#A9FF68
+  hi default DapUIWatchesError guifg=#F70067
+  hi default DapUIWatchesFrame guifg=#D484FF
+  hi default DapUIBreakpointsPath guifg=#00F1F5
+  hi default DapUIBreakpointsInfo guifg=#A9FF68
+  hi default DapUIBreakpointsCurrentLine guifg=#A9FF68 gui=bold
+  hi default link DapUIBreakpointsLine DapUILineNumber
+endfunction

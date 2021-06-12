@@ -70,15 +70,14 @@ local mappings = {
     ["e"] = "Explorer",
     ["f"] = "Find File",
     ["h"] = "No Highlight",
-    d = {
-        name = "+Debug",
-        b = {"<cmd>DebugToggleBreakpoint<cr>", "Toggle Breakpoint"},
-        c = {"<cmd>DebugContinue<cr>", "Continue"},
-        i = {"<cmd>DebugStepInto<cr>", "Step Into"},
-        o = {"<cmd>DebugStepOver<cr>", "Step Over"},
-        r = {"<cmd>DebugToggleRepl<cr>", "Toggle Repl"},
-        s = {"<cmd>DebugStart<cr>", "Start"}
-    },
+
+    --     b = {"<cmd>DebugToggleBreakpoint<cr>", "Toggle Breakpoint"},
+    --     c = {"<cmd>DebugContinue<cr>", "Continue"},
+    --     i = {"<cmd>DebugStepInto<cr>", "Step Into"},
+    --     o = {"<cmd>DebugStepOver<cr>", "Step Over"},
+    --     r = {"<cmd>DebugToggleRepl<cr>", "Toggle Repl"},
+    --     s = {"<cmd>DebugStart<cr>", "Start"}
+    -- },
     g = {
         name = "+Git",
         j = {"<cmd>NextHunk<cr>", "Next Hunk"},

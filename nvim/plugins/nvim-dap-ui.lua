@@ -27,8 +27,8 @@ require("dapui").setup({
     position = "bottom" -- Can be "bottom" or "top"
   },
   floating = {
-    max_height = 0.5, -- These can be integers or a float between 0 and 1.
-    max_width = 0.5   -- Floats will be treated as percentage of your scren.
+    max_height = nil, -- These can be integers or a float between 0 and 1.
+    max_width = nil, -- Floats will be treated as percentage of your scren.
   }
 })
 
