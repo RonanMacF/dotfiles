@@ -9,6 +9,7 @@ endfor
 exe 'source ~/dotfiles/nvim/utils.vim'
 exe 'luafile ~/dotfiles/nvim/utils.lua'
 exe 'luafile ~/dotfiles/nvim/augroups.lua'
+exe 'luafile ~/dotfiles/nvim/lua/cmp.lua'
 
 
 " system settings {{{
@@ -214,3 +215,9 @@ function! SetColours()
   hi default DapUIBreakpointsCurrentLine guifg=#A9FF68 gui=bold
   hi default link DapUIBreakpointsLine DapUILineNumber
 endfunction
+
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c

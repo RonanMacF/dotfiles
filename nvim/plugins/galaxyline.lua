@@ -228,30 +228,30 @@ gls.right = {
         }
      },
      {
-        DiagnosticWarn = {
-            provider = function()
-                local n = vim.lsp.diagnostic.get_count(0, 'Warning')
-                if n == 0 then return '' end
-                return string.format(' %s %d ', icons.lsp_warn, n)
-            end,
-            highlight = {'yellow', cl.bg},
-        },
-        DiagnosticError = {
-            provider = function()
-                local n = vim.lsp.diagnostic.get_count(0, 'Error')
-                if n == 0 then return '' end
-                return string.format(' %s %d ', icons.lsp_error, n)
-            end,
-            highlight = {'red', cl.bg},
-        },
-        DiagnosticHint = {
-            provider = function()
-                local n = vim.lsp.diagnostic.get_count(0, 'Hint')
-                if n == 0 then return '' end
-                return string.format('  %s %d ', icons.lsp_error, n)
-            end,
-            highlight = {cl.vivid_blue, cl.bg},
-        },
+        -- DiagnosticWarn = {
+        --     provider = function()
+        --         local n = vim.lsp.diagnostic.get_count(0, 'Warning')
+        --         if n == 0 then return '' end
+        --         return string.format(' %s %d ', icons.lsp_warn, n)
+        --     end,
+        --     highlight = {'yellow', cl.bg},
+        -- },
+        -- DiagnosticError = {
+        --     provider = function()
+        --         local n = vim.lsp.diagnostic.get_count(0, 'Error')
+        --         if n == 0 then return '' end
+        --         return string.format(' %s %d ', icons.lsp_error, n)
+        --     end,
+        --     highlight = {'red', cl.bg},
+        -- },
+        -- DiagnosticHint = {
+        --     provider = function()
+        --         local n = vim.lsp.diagnostic.get_count(0, 'Hint')
+        --         if n == 0 then return '' end
+        --         return string.format('  %s %d ', icons.lsp_error, n)
+        --     end,
+        --     highlight = {cl.vivid_blue, cl.bg},
+        -- },
         DiagnosticInfo = {
             provider = 'DiagnosticInfo',
             highlight = {cl.fg, cl.bg},
