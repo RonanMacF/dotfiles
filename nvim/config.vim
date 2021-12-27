@@ -11,7 +11,6 @@ exe 'luafile ~/dotfiles/nvim/utils.lua'
 exe 'luafile ~/dotfiles/nvim/augroups.lua'
 exe 'luafile ~/dotfiles/nvim/lua/cmp.lua'
 
-
 " system settings {{{
 	set shell=/bin/zsh                          " Prefer zsh for shell-related tasks
 	set hidden                                  " Prefer hiding over unloading buffers
