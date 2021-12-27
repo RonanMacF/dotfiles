@@ -112,6 +112,7 @@ cmp.setup {
   sources = {
     { name = "nvim_lsp" },
     { name = "luasnip" },
+    { name = "nvim_lua" },
     { name = "buffer" },
     { name = "path" },
   },
@@ -127,3 +128,14 @@ cmp.setup {
     native_menu = false,
   },
 }
+require'cmp'.setup.cmdline(':', {
+  sources = {
+    { name = 'cmdline' }
+  }
+})
+
+require'cmp'.setup.cmdline('/', {
+  sources = {
+    { name = 'buffer' }
+  }
+})

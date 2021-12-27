@@ -171,11 +171,22 @@
 
          # LSP plugins
           nvim-lspconfig
+          # nvim-lsp-installer
           lspsaga-nvim
           lsp_signature-nvim
 
-         # # completion plugins
-          nvim-compe
+         # completion plugins
+          nvim-cmp
+          cmp-buffer
+          cmp-path
+          cmp-cmdline
+          cmp_luasnip
+          cmp-nvim-lsp
+          cmp-nvim-lua
+
+          # snippets
+          luasnip
+          friendly-snippets
 
           # debugging plugins
           nvim-dap
