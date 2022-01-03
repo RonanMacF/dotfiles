@@ -5,3 +5,5 @@ vimspector/
 tmux/resurrect
 tmux/logging
 zsh/.
+.*
+
