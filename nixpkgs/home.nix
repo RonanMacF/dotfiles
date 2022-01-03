@@ -126,7 +126,8 @@
           vista-vim
 
          # text formatting
-          vim-commentary      # easilt do comments
+          comment-nvim
+          nvim-ts-context-commentstring
           vim-exchange        # swap text objects
           vim-sandwich        # add/chanfe/remove {[("' around text objects
           vim-matchup         # matchit++ 
