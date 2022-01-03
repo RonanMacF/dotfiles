@@ -61,7 +61,7 @@
       highlight
       #broot
       kitty
-      eternal-terminal
+      # eternal-terminal
 
       # file management
       trash-cli # recover delete items :)
@@ -118,12 +118,12 @@
           hiPairs
 
          # source control
-          vim-signify         # add source control symbols to the gutter and enable hunk jumping
+          gitsigns-nvim # add source control symbols to the gutter and enable hunk jumping
           vim-fugitive
           git-messenger-vim
           committia-vim
           vim-twiggy
-         vista-vim
+          vista-vim
 
          # text formatting
           vim-commentary      # easilt do comments
@@ -197,6 +197,7 @@
           vim-ultest
 
           vimux
+          nvim-tree-lua
         # TODO: maybe look into a mark plugin, vim-peekaboo or something alike.
        ];
     };
