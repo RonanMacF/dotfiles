@@ -116,6 +116,7 @@
           vim-signature
           scrollbar-nvim
           hiPairs
+          Shade-nvim
 
          # source control
           gitsigns-nvim # add source control symbols to the gutter and enable hunk jumping

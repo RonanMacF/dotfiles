@@ -1,1 +1,1 @@
-/nix/store/pjyla3vgyvd08xzkkk6vdw2gvnmhgpf3-home-manager-files/.config/nvim/init.vim
+/nix/store/9d06dbl4viacpjkdcwk1npgd6jpdl3i4-home-manager-files/.config/nvim/init.vim
