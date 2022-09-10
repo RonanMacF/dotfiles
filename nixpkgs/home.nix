@@ -43,7 +43,7 @@
 
       # golang
       gofumpt
-      goimports
+      gotools
 
        # tools
        # mosh
@@ -83,12 +83,11 @@
       _1password # password management
       gcalcli
 
-      # tmux
+      tmux
       tmuxinator
 
       # debug adapters
       python3Packages.debugpy
-      pythonPackages.debugpy
     ];
 
 
@@ -108,7 +107,6 @@
          # appearence
           gruvbox-community   # colorscheme 
           sonokai
-          moonlight-nvim
           galaxyline-nvim     # add a nice status bar
           nvim-web-devicons   # add some nice icons, makes things a bit prettier
           vim-startify        # nice startup screen with MRU files
@@ -128,7 +126,7 @@
 
          # text formatting
           comment-nvim
-          nvim-ts-context-commentstring
+          # nvim-ts-context-commentstring
           vim-exchange        # swap text objects
           vim-sandwich        # add/chanfe/remove {[("' around text objects
           vim-matchup         # matchit++ 
@@ -166,10 +164,10 @@
           plenary-nvim
 
          # treesitter plugins
-          nvim-treesitter
-          nvim-ts-rainbow
-          nvim-treesitter-refactor
-          nvim-treesitter-textobjects
+          # nvim-treesitter
+          # nvim-ts-rainbow
+          # nvim-treesitter-refactor
+          # nvim-treesitter-textobjects
 
          # LSP plugins
           nvim-lspconfig
@@ -196,7 +194,6 @@
           nvim-dap-ui
           telescope-dap-nvim
           vim-test
-          vim-ultest
 
           vimux
           nvim-tree-lua
