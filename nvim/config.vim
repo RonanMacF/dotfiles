@@ -10,10 +10,8 @@ exe 'source ~/dotfiles/nvim/utils.vim'
 exe 'luafile ~/dotfiles/nvim/utils.lua'
 exe 'luafile ~/dotfiles/nvim/augroups.lua'
 exe 'luafile ~/dotfiles/nvim/lua/cmp.lua'
-exe 'luafile ~/dotfiles/nvim/lua/nvim-tree.lua'
 exe 'luafile ~/dotfiles/nvim/lua/shade.lua'
 exe 'luafile ~/dotfiles/nvim/lua/comments.lua'
-exe 'luafile ~/dotfiles/nvim/lua/treesitter.lua'
 exe 'luafile ~/dotfiles/nvim/lua/gitsigns.lua'
 
 

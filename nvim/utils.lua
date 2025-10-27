@@ -6,4 +6,3 @@ vim.api.nvim_set_keymap('n', '<Leader>vv', ':Vista!!', {noremap = true, silent =
 
 -- nvim-dap
 vim.api.nvim_set_keymap('n', 'bb', ":lua require'dap'.toggle_breakpoint()<CR>", {noremap = false, silent = false})
-
