@@ -4,6 +4,6 @@ nvim/swap
 vimspector/
 tmux/resurrect
 tmux/logging
-zsh/.
+zsh/.zsh_history
 .*
 
