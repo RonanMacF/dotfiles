@@ -1,0 +1,90 @@
+typeset -U path cdpath fpath manpath
+for profile in ${(z)NIX_PROFILES}; do
+  fpath+=($profile/share/zsh/site-functions $profile/share/zsh/$ZSH_VERSION/functions $profile/share/zsh/vendor-completions)
+done
+
+HELPDIR="/nix/store/2g3h900iy7ri455lyjycpmjx6fw8pgi4-zsh-5.9/share/zsh/$ZSH_VERSION/help"
+
+# Use viins keymap as the default.
+bindkey -v
+
+# Add plugin directories to PATH and fpath
+plugin_dirs=(
+  powerlevel10k zsh-you-should-use auto-notify zsh-syntax-highlighting vi-mode
+  git-extra-commands zsh-history-substring-search
+)
+for plugin_dir in "${plugin_dirs[@]}"; do
+  path+="/Users/ronan/dotfiles/zsh/plugins/$plugin_dir"
+  fpath+="/Users/ronan/dotfiles/zsh/plugins/$plugin_dir"
+done
+unset plugin_dir plugin_dirs
+
+
+source /nix/store/kkhyabmgqbxgw7nq1iaz2p57yd10g91a-zsh-autosuggestions-0.7.1/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_STRATEGY=(history)
+
+
+# Load prezto
+source /nix/store/v3s5rds6dr3fpkpga9q7k0by6yr2hi63-zsh-prezto-0-unstable-2025-07-30/share/zsh-prezto/runcoms/zshrc
+
+# Source plugins
+plugins=(
+  powerlevel10k/powerlevel10k.plugin.zsh
+  zsh-you-should-use/zsh-you-should-use.plugin.zsh
+  auto-notify/auto-notify.plugin.zsh
+  zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+  git-extra-commands/git-extra-commands.zsh
+  zsh-history-substring-search/zsh-history-substring-search.zsh
+)
+for plugin in "${plugins[@]}"; do
+  [[ -f "/Users/ronan/dotfiles/zsh/plugins/$plugin" ]] && source "/Users/ronan/dotfiles/zsh/plugins/$plugin"
+done
+unset plugin plugins
+
+# History options should be set in .zshrc and after oh-my-zsh sourcing.
+# See https://github.com/nix-community/home-manager/issues/177.
+HISTSIZE="10000"
+SAVEHIST="10000"
+
+HISTFILE="/Users/ronan/dotfiles/zsh/.zsh_history"
+mkdir -p "$(dirname "$HISTFILE")"
+
+setopt HIST_FCNTL_LOCK
+
+# Enabled history options
+enabled_opts=(
+  APPEND_HISTORY HIST_FIND_NO_DUPS HIST_IGNORE_DUPS HIST_IGNORE_SPACE
+  SHARE_HISTORY autocd
+)
+for opt in "${enabled_opts[@]}"; do
+  setopt "$opt"
+done
+unset opt enabled_opts
+
+# Disabled history options
+disabled_opts=(
+  EXTENDED_HISTORY HIST_EXPIRE_DUPS_FIRST HIST_IGNORE_ALL_DUPS HIST_SAVE_NO_DUPS
+)
+for opt in "${disabled_opts[@]}"; do
+  unsetopt "$opt"
+done
+unset opt disabled_opts
+
+if [[ $options[zle] = on ]]; then
+  source <(/nix/store/8xafvgyqh8v45s2ivpjh26i332ih2692-fzf-0.66.1/bin/fzf --zsh)
+fi
+
+if test -n "$KITTY_INSTALLATION_DIR"; then
+  export KITTY_SHELL_INTEGRATION="no-rc"
+  autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+  kitty-integration
+  unfunction kitty-integration
+fi
+
+export EDITOR=nvim
+
+source /nix/store/6k585kdgam2gq2plmv5ishkapd80gsq6-zsh-syntax-highlighting-0.8.0/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ZSH_HIGHLIGHT_HIGHLIGHTERS+=()
+
+

@@ -27,6 +27,7 @@
       #wget
       #dnsutils
       #mtr
+      delta
       
       # language-servers
       gopls
@@ -219,10 +220,14 @@
 
     programs.zsh = {
       enable = true;
-      enableAutosuggestions = true;
       autocd = true; # automatically cd into directory if typed directly into shell
       defaultKeymap = "viins";
-      dotDir = "dotfiles/zsh";
+      dotDir = "`\${config.xdg.configHome}/dorfiles/zsh`"
+      autosuggestion.enable = true;
+      enableCompletions = true;
+      syntaxHighlighting.enable = true;
+      history.append = true;
+      history.findNoDups = true;
       plugins = with pkgs; [
       {
         name = "powerlevel10k";
@@ -266,8 +271,8 @@
         };
      };
      initExtra = ''
-       if [ -e /Users/ronan/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/ronan/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer 
        POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+       source ~/dotfiles/zsh/.p10k.zsh
        export EDITOR=nvim
      '';
     };
