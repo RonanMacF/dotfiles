@@ -1,0 +1,82 @@
+{
+  "nodes": {
+    "git-extra-commands": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1774962080,
+        "narHash": "sha256-0I05zMBMsHsQoMrQ47otVe70JeDrxIeigjMV/Ve03ME=",
+        "owner": "unixorn",
+        "repo": "git-extra-commands",
+        "rev": "d6e70dd1b477e4bd5a333fab3e804e2ef5f866f5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "unixorn",
+        "repo": "git-extra-commands",
+        "type": "github"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775143651,
+        "narHash": "sha256-S0RqAyDPMTcv9vASMaE8eY1QexFysAOdnxUxFHIPOyE=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "d166a078541982a76f14d3e06e9665fa5c9ed85e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1775095191,
+        "narHash": "sha256-CsqRiYbgQyv01LS0NlC7shwzhDhjNDQSrhBX8VuD3nM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "106eb93cbb9d4e4726bf6bc367a3114f7ed6b32f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "git-extra-commands": "git-extra-commands",
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs",
+        "zsh-auto-notify": "zsh-auto-notify"
+      }
+    },
+    "zsh-auto-notify": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1750669386,
+        "narHash": "sha256-s3TBAsXOpmiXMAQkbaS5de0t0hNC1EzUUb0ZG+p9keE=",
+        "owner": "MichaelAquilina",
+        "repo": "zsh-auto-notify",
+        "rev": "b51c934d88868e56c1d55d0a2a36d559f21cb2ee",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MichaelAquilina",
+        "repo": "zsh-auto-notify",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
