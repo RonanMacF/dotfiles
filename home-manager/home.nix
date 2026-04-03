@@ -87,6 +87,11 @@ in
     # utilities
     _1password-cli
     gcalcli
+  ]
+  ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
+    libnotify  # provides notify-send for zsh-auto-notify
+  ]
+  ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
     maccy
   ];
 
@@ -218,6 +223,7 @@ in
     shellAliases = {
       ll = "eza --long --all --group --icons --time-style=long-iso";
       hms = "home-manager switch --flake ~/.config/home-manager --impure";
+    } // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
       ssh = "kitten ssh";
       hg = "kitten hyperlinked-grep";
     };
@@ -231,23 +237,6 @@ in
       ignoreDups = true;
       saveNoDups = true;
     };
-    initExtra = ''
-      # Path-aware word deletion (stop at / . - instead of eating entire paths)
-      WORDCHARS=''\'''${WORDCHARS//[\/.]}'
-      setopt CORRECT INTERACTIVE_COMMENTS NO_BEEP
-
-      # fzf + ripgrep live grep — type query, results update live, Enter opens in nvim
-      frg() {
-        local initial_query="''${*:-}"
-        : | fzf --ansi --disabled --query "$initial_query" \
-          --bind "start:reload:rg --column --line-number --no-heading --color=always --smart-case {q} || true" \
-          --bind "change:reload:rg --column --line-number --no-heading --color=always --smart-case {q} || true" \
-          --delimiter : \
-          --preview 'bat --color=always --highlight-line {2} {1}' \
-          --preview-window 'right:60%:+{2}+3/3:border-left' \
-          --bind 'enter:become(nvim {1} +{2})'
-      }
-    '';
     zsh-abbr = {
       enable = true;
       abbreviations = {
@@ -279,6 +268,22 @@ in
       }
     ];
     initContent = ''
+      # Path-aware word deletion (stop at / . - instead of eating entire paths)
+      WORDCHARS=''\'''${WORDCHARS//[\/.]}'
+      setopt CORRECT INTERACTIVE_COMMENTS NO_BEEP
+
+      # fzf + ripgrep live grep — type query, results update live, Enter opens in nvim
+      frg() {
+        local initial_query="''${*:-}"
+        : | fzf --ansi --disabled --query "$initial_query" \
+          --bind "start:reload:rg --column --line-number --no-heading --color=always --smart-case {q} || true" \
+          --bind "change:reload:rg --column --line-number --no-heading --color=always --smart-case {q} || true" \
+          --delimiter : \
+          --preview 'bat --color=always --highlight-line {2} {1}' \
+          --preview-window 'right:60%:+{2}+3/3:border-left' \
+          --bind 'enter:become(nvim {1} +{2})'
+      }
+
       # Override auto-notify to use kitty's OSC 99 desktop notification protocol.
       # Works over SSH -- the escape sequence travels through the tunnel to
       # your local kitty, which renders it as a native macOS notification.

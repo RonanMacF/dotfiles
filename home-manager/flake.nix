@@ -31,8 +31,8 @@
     in
     {
       homeConfigurations = {
-        # home-manager auto-detects by username
-        "ronan" = mkHomeConfig builtins.currentSystem;
+        "ronan@ronans-mbp.lan" = mkHomeConfig "aarch64-darwin";
+        "ronan@ronan-vm" = mkHomeConfig "x86_64-linux";
       };
     };
 }
