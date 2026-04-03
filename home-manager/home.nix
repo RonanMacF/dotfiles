@@ -349,6 +349,8 @@ in
       alias = {
         ci = "commit";
         sw = "switch";
+        # Checkout remote branch as local tracking branch (shows branch name, not hash)
+        cor = "!f() { git switch --track \"$1\" 2>/dev/null || git switch --detach \"$1\"; }; f";
         rst = "restore";
         ds = "diff --staged";
         dw = "diff --word-diff";
@@ -550,6 +552,7 @@ in
         "$directory"
         "[${pl-right}](fg:color_yellow bg:color_aqua)"
         "$git_branch"
+        "$git_commit"
         "$git_status"
         "[${pl-right}](fg:color_aqua bg:color_blue)"
         "$c"
@@ -598,11 +601,26 @@ in
       git_branch = {
         symbol = "";
         style = "bg:color_aqua";
-        format = "[[ $symbol $branch ](fg:color_fg0 bg:color_aqua)]($style)";
+        format = "[[ $symbol $branch(:$remote_branch) ](fg:color_fg0 bg:color_aqua)]($style)";
       };
+      git_commit = {
+        only_detached = true;
+        format = "[[ $hash$tag ](fg:color_fg0 bg:color_aqua)]($style)";
+        style = "bg:color_aqua";
+        tag_disabled = false;
+        tag_symbol = "  ";
+      };
+      # Show remote name when tracking differs from local
+      git_branch.always_show_remote = false;
       git_status = {
         style = "bg:color_aqua";
-        format = "[[($all_status$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)";
+        format = "[[($staged$modified$untracked$deleted$conflicted$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)";
+        staged = "[+$count ](fg:color_fg0 bg:color_aqua)";
+        modified = "[~$count ](fg:color_fg0 bg:color_aqua)";
+        untracked = "[?$count ](fg:color_fg0 bg:color_aqua)";
+        deleted = "[-$count ](fg:color_fg0 bg:color_aqua)";
+        conflicted = "[!$count ](fg:color_fg0 bg:color_aqua)";
+        stashed = "";
         ignore_submodules = true;
       };
       c = {
