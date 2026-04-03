@@ -15,23 +15,29 @@ in
   home.sessionPath = [
     "$HOME/.local/bin"
     "$HOME/go/bin"
+    "$HOME/.npm-global/bin"
   ];
 
   home.sessionVariables = {
-    EDITOR = "nvim";
-    VISUAL = "nvim";
     PAGER = "less";
     MANPAGER = "nvim +Man!";
     LANG = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";
+    GOPATH = "$HOME/go";
+    GOBIN = "$HOME/go/bin";
+    NPM_CONFIG_PREFIX = "$HOME/.npm-global";
     PIP_REQUIRE_VIRTUALENV = "1";
   };
 
   home.packages = with pkgs; [
+    # fonts
     nerd-fonts.jetbrains-mono
-    curl
+    nerd-fonts.symbols-only
+
+    # languages
+    go
+    python3
     nodejs
-    sshfs
 
     # language servers
     gopls
@@ -41,17 +47,15 @@ in
     taplo
     vscode-langservers-extracted
 
-    # languages
-    go
-    python3
-
-    # formatters / linters
+    # go tools
     gofumpt
     gotools
     golines
     golangci-lint
     gotestsum
     delve
+
+    # formatters / linters
     ruff
     stylua
     shellcheck
@@ -59,58 +63,123 @@ in
     markdownlint-cli2
     tree-sitter
 
-    # tools
+    # debug adapters
+    python3Packages.debugpy
+
+    # build tools
     gcc
-    lazygit
     luarocks
     openssl
-    lsof
-    htop
-    bat
+
+    # cli tools
+    curl
     ripgrep
-    highlight
-    stow
-
-    # file management
-    trash-cli
     fd
-    fzf
-
-    # reference
-    tealdeer
-
-    # json processing
+    eza
     jq
     fx
-
-    # source management
-    tig
+    btop
+    lsof
+    trash-cli
+    tealdeer
+    sshfs
 
     # utilities
     _1password-cli
     gcalcli
-    eza
     maccy
-
-    # debug adapters
-    python3Packages.debugpy
   ];
 
   programs.neovim = {
     enable = true;
     vimAlias = true;
+    defaultEditor = true;
     # Plugins managed by LazyVim in ~/.config/nvim/
   };
 
   programs.tmux = {
     enable = true;
+    shortcut = "a";
     keyMode = "vi";
+    mouse = true;
+    baseIndex = 1;
+    escapeTime = 10;
+    historyLimit = 100000;
+    terminal = "tmux-256color";
+    clock24 = false;
     extraConfig = ''
       # Allow OSC escape sequences to pass through to the outer terminal (kitty).
-      # Required for notifications and image display over SSH+tmux.
       set -g allow-passthrough on
 
-      ${builtins.readFile "${config.home.homeDirectory}/dotfiles/tmux/tmux.conf"}
+      # Focus events — needed for Neovim autoread and gitsigns
+      set -g focus-events on
+
+      # OSC 52 clipboard — works everywhere (local, SSH, tmux)
+      set -g set-clipboard on
+
+      # Renumber windows when one is closed
+      set -g renumber-windows on
+
+      # Activity alerts
+      setw -g monitor-activity on
+      set -g visual-activity on
+
+      # Auto-rename windows to current directory
+      set -g automatic-rename on
+      set -g automatic-rename-format "#{b:pane_current_path}"
+
+      # Split panes in current directory
+      bind | split-window -h -c "#{pane_current_path}"
+      bind - split-window -v -c "#{pane_current_path}"
+      bind c new-window -c "#{pane_current_path}"
+
+      # Vi copy-mode with system clipboard
+      bind -T copy-mode-vi v send -X begin-selection
+      bind -T copy-mode-vi V send -X select-line
+      bind -T copy-mode-vi C-v send -X rectangle-toggle
+      bind -T copy-mode-vi y send -X copy-selection-and-cancel
+
+      # Pane resizing (repeatable)
+      bind -r H resize-pane -L 5
+      bind -r J resize-pane -D 5
+      bind -r K resize-pane -U 5
+      bind -r L resize-pane -R 5
+
+      # Window switching with Alt+number
+      bind -n M-1 select-window -t 1
+      bind -n M-2 select-window -t 2
+      bind -n M-3 select-window -t 3
+      bind -n M-4 select-window -t 4
+      bind -n M-5 select-window -t 5
+      bind -n M-6 select-window -t 6
+      bind -n M-7 select-window -t 7
+      bind -n M-8 select-window -t 8
+      bind -n M-9 select-window -t 9
+
+      # Swap windows
+      bind -r < swap-window -d -t -1
+      bind -r > swap-window -d -t +1
+
+      # Lazygit popup
+      bind g display-popup -E -w 90% -h 90% -d "#{pane_current_path}" "lazygit"
+
+      # Quick popup terminal
+      bind -n M-t display-popup -E -w 80% -h 80% -d "#{pane_current_path}"
+
+      # Fzf session switcher
+      bind s display-popup -E -w 60% -h 60% "\
+        tmux list-sessions -F '#{session_name}' | \
+        fzf --reverse --header='Switch session' \
+          --preview 'tmux capture-pane -ep -t {}' | \
+        xargs tmux switch-client -t"
+
+      # Reload config
+      bind r source-file ~/.config/tmux/tmux.conf \; display "Config reloaded"
+
+      # Resurrect/continuum
+      set -g @resurrect-capture-pane-contents 'on'
+      set -g @continuum-restore 'on'
+      set -g @continuum-save-interval '10'
     '';
     plugins = with pkgs.tmuxPlugins; [
       sensible
@@ -119,8 +188,8 @@ in
       vim-tmux-navigator
       resurrect
       continuum
-      copycat
       tmux-fzf
+      tmux-thumbs
       {
         plugin = catppuccin;
         extraConfig = ''
@@ -152,14 +221,33 @@ in
       ssh = "kitten ssh";
       hg = "kitten hyperlinked-grep";
     };
-    envExtra = "";
     history = {
+      size = 50000;
+      save = 50000;
       append = true;
+      extended = true;
       findNoDups = true;
       expireDuplicatesFirst = true;
       ignoreDups = true;
       saveNoDups = true;
     };
+    initExtra = ''
+      # Path-aware word deletion (stop at / . - instead of eating entire paths)
+      WORDCHARS=''\'''${WORDCHARS//[\/.]}'
+      setopt CORRECT INTERACTIVE_COMMENTS NO_BEEP
+
+      # fzf + ripgrep live grep — type query, results update live, Enter opens in nvim
+      frg() {
+        local initial_query="''${*:-}"
+        : | fzf --ansi --disabled --query "$initial_query" \
+          --bind "start:reload:rg --column --line-number --no-heading --color=always --smart-case {q} || true" \
+          --bind "change:reload:rg --column --line-number --no-heading --color=always --smart-case {q} || true" \
+          --delimiter : \
+          --preview 'bat --color=always --highlight-line {2} {1}' \
+          --preview-window 'right:60%:+{2}+3/3:border-left' \
+          --bind 'enter:become(nvim {1} +{2})'
+      }
+    '';
     zsh-abbr = {
       enable = true;
       abbreviations = {
@@ -220,14 +308,30 @@ in
       # We override _auto_notify_message with OSC 99, so force-enable it.
       enable_auto_notify
 
-      # https://discourse.nixos.org/t/darwin-home-manager-zsh-fzf-and-zsh-fzf-tab/33943
-      zvm_after_init_commands+=(eval "$(fzf --zsh)")
-
-      # Completion: zstyles before compinit, fzf-tab after
-      zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+      # ── Completion config ──
+      # Case-insensitive, then partial-word, then substring
+      zstyle ':completion:*' matcher-list \
+        'm:{a-zA-Z}={A-Za-z}' \
+        'r:|[._-]=* r:|=*' \
+        'l:|=* r:|=*'
       zstyle ':completion:*' menu no
-      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-      zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+      zstyle ':completion:*' group-name ""
+      zstyle ':completion:*:descriptions' format '%F{yellow}%B── %d ──%b%f'
+      zstyle ':completion:*:warnings' format '%F{red}── no matches ──%f'
+      zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
+      zstyle ':completion:*' verbose yes
+      zstyle ':completion:*' use-cache on
+      zstyle ':completion:*' cache-path "$HOME/.cache/zsh/compcache"
+      zstyle ':completion:*' special-dirs true
+      zstyle ':completion:*' squeeze-slashes true
+      zstyle ':completion:*:cd:*' ignore-parents parent pwd
+      zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+      zstyle ':completion:*:*:kill:*' menu yes select
+
+      # fzf-tab
+      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always --icons $realpath'
+      zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -1 --color=always --icons $realpath'
+      zstyle ':fzf-tab:*' switch-group '<' '>'
 
       autoload -U compinit && compinit -C
       source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
@@ -238,6 +342,29 @@ in
     enable = true;
     package = pkgs.gitFull;
     settings = {
+      user.name = "ronan-nexthop";
+      user.email = "ronan@nexthop.ai";
+      user.signingkey = "B870F0F4471D8107";
+      gpg.program = "${pkgs.gnupg}/bin/gpg2";
+      alias = {
+        ci = "commit";
+        sw = "switch";
+        rst = "restore";
+        ds = "diff --staged";
+        dw = "diff --word-diff";
+        lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+        recent = "branch --sort=-committerdate --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:green)%(committerdate:relative)%(color:reset) %(contents:subject)'";
+        last = "diff-tree --no-commit-id --name-status -r HEAD";
+        amend = "commit --amend --no-edit";
+        undo = "reset --soft HEAD~1";
+        wip = "!git add -A && git commit -m 'wip: checkpoint'";
+        unwip = "!git log -1 --format='%s' | grep -q '^wip:' && git reset HEAD~1";
+        fixup = "!f() { git commit --fixup=$1 && GIT_SEQUENCE_EDITOR=: git rebase --autosquash --autostash $1~1; }; f";
+        find = "!f() { git log --all -S\"$1\" --oneline; }; f";
+        who = "blame -w -C -C -C";
+        cleanup = "!git branch --merged main | grep -v '^[ *]*main$' | xargs -r git branch -d";
+        pub = "!f() { git push -u origin $(git branch --show-current); }; f";
+      };
       column.ui = "auto";
       branch.sort = "-committerdate";
       status.submoduleSummary = true;
@@ -246,7 +373,8 @@ in
       init.defaultBranch = "main";
       diff = {
         algorithm = "histogram";
-        colorMoved = "plain";
+        colorMoved = "dimmed-zebra";
+        colorMovedWS = "allow-indentation-change";
         mnemonicPrefix = true;
         renames = true;
         submodule = "log";
@@ -260,9 +388,12 @@ in
         prune = true;
         pruneTags = true;
         all = true;
+        writeCommitGraph = true;
       };
       help.autocorrect = "prompt";
       commit.verbose = true;
+      commit.gpgSign = true;
+      log.date = "iso";
       rerere = {
         enabled = true;
         autoupdate = true;
@@ -276,14 +407,121 @@ in
         fsmonitor = true;
         untrackedCache = true;
       };
+      transfer.fsckObjects = true;
+      receive.fsckObjects = true;
       merge.conflictstyle = "zdiff3";
+      merge.autoStash = true;
       pull.rebase = true;
+      core.hooksPath = "${config.home.homeDirectory}/.config/git/hooks";
+    };
+  };
+
+  # Global git hooks — signoff on every commit
+  home.file.".config/git/hooks/prepare-commit-msg" = {
+    executable = true;
+    text = ''
+      #!/bin/sh
+      # Add Signed-off-by if not already present
+      SOB="Signed-off-by: $(git config user.name) <$(git config user.email)>"
+      grep -qs "^$SOB" "$1" || echo "$SOB" >> "$1"
+    '';
+  };
+
+  programs.bat = {
+    enable = true;
+    config = {
+      theme = "gruvbox-dark";
+      style = "numbers,changes";
+    };
+  };
+
+  programs.lazygit = {
+    enable = true;
+    settings = {
+      gui = {
+        showIcons = true;
+        nerdFontsVersion = "3";
+        showRandomTip = false;
+        showBottomLine = false;
+        border = "rounded";
+        theme = {
+          lightTheme = false;
+          activeBorderColor = [ "#fe8019" "bold" ];
+          inactiveBorderColor = [ "#665c54" ];
+          searchingActiveBorderColor = [ "#fabd2f" "bold" ];
+          optionsTextColor = [ "#83a598" ];
+          selectedLineBgColor = [ "#3c3836" ];
+          cherryPickedCommitFgColor = [ "#d3869b" ];
+          cherryPickedCommitBgColor = [ "#3c3836" ];
+          unstagedChangesColor = [ "#fb4934" ];
+          defaultFgColor = [ "#ebdbb2" ];
+        };
+      };
+      git = {
+        paging = {
+          colorArg = "always";
+          pager = "delta --paging=never";
+        };
+        autoFetch = true;
+        autoRefresh = true;
+        log.showGraph = "always";
+      };
+      os.editPreset = "nvim";
+      customCommands = [
+        {
+          key = "F";
+          context = "commits";
+          command = "git commit --fixup={{.SelectedLocalCommit.Hash}}";
+          description = "Fixup this commit";
+          loadingText = "Creating fixup...";
+        }
+        {
+          key = "O";
+          context = "global";
+          command = "gh browse";
+          description = "Open repo in browser";
+        }
+        {
+          key = "P";
+          context = "localBranches";
+          command = "gh pr create --fill --web";
+          description = "Create PR on GitHub";
+          subprocess = true;
+        }
+      ];
+    };
+  };
+
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "ssh";
+      editor = "nvim";
+      aliases = {
+        co = "pr checkout";
+      };
     };
   };
 
   programs.delta = {
     enable = true;
     enableGitIntegration = true;
+    options = {
+      syntax-theme = "gruvbox-dark";
+      line-numbers = true;
+      navigate = true;
+      side-by-side = true;
+      hyperlinks = true;
+      width = "variable";
+      merge-conflict-style = "zdiff3";
+      true-color = "always";
+      file-style = "bold yellow ul";
+      file-decoration-style = "yellow ol";
+      hunk-header-decoration-style = "blue box ul";
+      hunk-header-style = "file line-number syntax";
+      commit-decoration-style = "bold yellow box ul";
+      commit-style = "bold yellow";
+    };
   };
 
   programs.zoxide = {
@@ -291,35 +529,160 @@ in
     enableZshIntegration = true;
   };
 
-  programs.starship = {
+  programs.starship = let
+    # Nix has no \u escape — decode Unicode via JSON
+    u = cp: builtins.fromJSON ''"\u${cp}"'';
+    pl-right = u "e0b0";       #
+    pl-right-round = u "e0b6"; #
+    pl-left-round = u "e0b4";  #
+    prompt-char = u "f432";    #
+    prompt-vim  = u "f434";    #
+  in {
     enable = true;
     enableZshIntegration = true;
     settings = {
-      format = "$directory$git_branch$git_status$golang$python$nix_shell$cmd_duration$line_break$character";
-      character = {
-        success_symbol = "[❯](green)";
-        error_symbol = "[❯](red)";
-        vimcmd_symbol = "[❮](green)";
-      };
-      directory = {
-        truncation_length = 3;
-        truncation_symbol = ".../";
-      };
-      git_branch.format = "[$branch]($style) ";
-      git_status.format = "[$all_status$ahead_behind]($style) ";
-      golang.format = "[$symbol$version]($style) ";
-      python.format = "[$symbol$version( \\($virtualenv\\))]($style) ";
-      nix_shell.format = "[$symbol$state]($style) ";
+      command_timeout = 5000;
+      palette = "gruvbox_dark";
+      format = builtins.concatStringsSep "" [
+        "[${pl-right-round}](color_orange)"
+        "$username"
+        "[${pl-right}](bg:color_yellow fg:color_orange)"
+        "$directory"
+        "[${pl-right}](fg:color_yellow bg:color_aqua)"
+        "$git_branch"
+        "$git_status"
+        "[${pl-right}](fg:color_aqua bg:color_blue)"
+        "$c"
+        "$rust"
+        "$golang"
+        "[${pl-right}](fg:color_blue bg:color_bg3)"
+        "$docker_context"
+        "[${pl-right}](fg:color_bg3)"
+        " $character"
+      ];
+      right_format = "$python$cmd_duration$status $time";
       cmd_duration = {
         min_time = 3000;
-        format = "[$duration]($style) ";
+        format = "[$duration ]($style)";
+        style = "fg:color_yellow";
+      };
+
+      palettes.gruvbox_dark = {
+        color_fg0 = "#fbf1c7";
+        color_bg1 = "#3c3836";
+        color_bg3 = "#665c54";
+        color_blue = "#458588";
+        color_aqua = "#689d6a";
+        color_green = "#98971a";
+        color_orange = "#d65d0e";
+        color_purple = "#b16286";
+        color_red = "#cc241d";
+        color_yellow = "#d79921";
+      };
+
+      os.disabled = true;
+
+      username = {
+        show_always = false;
+        style_user = "bg:color_orange fg:color_fg0";
+        style_root = "bg:color_orange fg:color_fg0";
+        format = "[ $user ]($style)";
+      };
+      directory = {
+        style = "fg:color_fg0 bg:color_yellow";
+        format = "[ $path ]($style)";
+        truncation_length = 5;
+        truncation_symbol = "…/";
+        truncate_to_repo = false;
+      };
+      git_branch = {
+        symbol = "";
+        style = "bg:color_aqua";
+        format = "[[ $symbol $branch ](fg:color_fg0 bg:color_aqua)]($style)";
+      };
+      git_status = {
+        style = "bg:color_aqua";
+        format = "[[($all_status$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)";
+        ignore_submodules = true;
+      };
+      c = {
+        symbol = " ";
+        style = "bg:color_blue";
+        format = "[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)";
+      };
+      rust = {
+        symbol = "";
+        style = "bg:color_blue";
+        format = "[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)";
+      };
+      golang = {
+        symbol = "";
+        style = "bg:color_blue";
+        format = "[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)";
+      };
+      nodejs.disabled = true;
+      python = {
+        symbol = "";
+        style = "fg:color_yellow";
+        format = "[$symbol $virtualenv ($version) ]($style)";
+        detect_files = [];
+        detect_extensions = [];
+        detect_folders = [];
+      };
+      docker_context = {
+        symbol = "";
+        style = "bg:color_bg3";
+        format = "[[ $symbol( $context) ](fg:#83a598 bg:color_bg3)]($style)";
+      };
+      conda.disabled = true;
+      pixi.disabled = true;
+      status = {
+        disabled = false;
+        format = "[$symbol $status]($style)";
+        symbol = "";
+        style = "fg:color_red";
+      };
+      time = {
+        disabled = false;
+        time_format = "%R";
+        style = "fg:color_yellow";
+        format = "[$time]($style)";
+      };
+      line_break.disabled = true;
+      character = {
+        disabled = false;
+        success_symbol = "[\\$](bold fg:color_green)";
+        error_symbol = "[\\$](bold fg:color_red)";
+        vimcmd_symbol = "[\\$](bold fg:color_green)";
+        vimcmd_replace_one_symbol = "[\\$](bold fg:color_purple)";
+        vimcmd_replace_symbol = "[\\$](bold fg:color_purple)";
+        vimcmd_visual_symbol = "[\\$](bold fg:color_yellow)";
       };
     };
   };
 
   programs.fzf = {
     enable = true;
-    changeDirWidgetCommand = "fd --type d";
+    defaultCommand = "fd --type f --hidden --follow --exclude .git";
+    defaultOptions = [
+      "--height=60%"
+      "--layout=reverse"
+      "--border=rounded"
+      "--info=inline-right"
+      "--color" "bg+:#3c3836,bg:#282828,spinner:#689d6a,hl:#d65d0e"
+      "--color" "fg:#ebdbb2,header:#d65d0e,info:#d79921,pointer:#689d6a"
+      "--color" "marker:#689d6a,fg+:#ebdbb2,prompt:#d79921,hl+:#d65d0e"
+      "--bind=ctrl-/:toggle-preview"
+    ];
+    fileWidgetCommand = "fd --type f --hidden --follow --exclude .git";
+    fileWidgetOptions = [
+      "--preview" "'bat --color=always --style=numbers --line-range=:500 {}'"
+      "--preview-window" "'right:60%:border-left'"
+    ];
+    changeDirWidgetCommand = "fd --type d --hidden --follow --exclude .git";
+    changeDirWidgetOptions = [
+      "--preview" "'eza --tree --color=always --icons --level=2 {}'"
+    ];
     historyWidgetOptions = [
       "--sort"
       "--exact"
@@ -429,8 +792,18 @@ PYEOF
 
   programs.direnv = {
     enable = true;
-    enableBashIntegration = true;
     enableZshIntegration = true;
     nix-direnv.enable = true;
   };
+
+  # Install npm-based CLI tools not in nixpkgs
+  home.activation.installNpmTools = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+    mkdir -p "$NPM_CONFIG_PREFIX"
+    for pkg in @anthropic-ai/claude-code @augmentcode/auggie; do
+      if ! "$NPM_CONFIG_PREFIX/bin/$(basename "$pkg")" --version >/dev/null 2>&1; then
+        ${pkgs.nodejs}/bin/npm install -g "$pkg" 2>/dev/null || true
+      fi
+    done
+  '';
 }
