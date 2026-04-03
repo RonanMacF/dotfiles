@@ -373,7 +373,7 @@ in
     MACOS_DIR="$KITTY_APP/Contents/MacOS"
 
     if [ -d "$KITTY_APP" ] && [ -f "$MACOS_DIR/kitty" ]; then
-      NIX_KITTY_WRAPPED=$(${pkgs.binutils-unwrapped}/bin/strings "$MACOS_DIR/kitty" | grep '/nix/store.*/.kitty-wrapped$' | head -1)
+      NIX_KITTY_WRAPPED=$(${pkgs.binutils-unwrapped}/bin/strings "$MACOS_DIR/kitty" | grep '/nix/store.*/.kitty-wrapped$' | head -1 || true)
 
       if [ -n "$NIX_KITTY_WRAPPED" ] && [ -f "$NIX_KITTY_WRAPPED" ]; then
         NIX_PATH=$(${pkgs.binutils-unwrapped}/bin/strings "$MACOS_DIR/kitty" | grep '^/nix/store.*bin$' | head -1)
