@@ -1,11 +1,3 @@
-nvim/backup
-nvim/undo
-nvim/swap
-vimspector/
-tmux/resurrect
-tmux/logging
-zsh/.zsh_history
-zsh/.zsh_history
 .*
-
+zsh/.zsh_history
 zsh/.zcompdump*

@@ -27,6 +27,7 @@ in
     GOBIN = "$HOME/go/bin";
     NPM_CONFIG_PREFIX = "$HOME/.npm-global";
     PIP_REQUIRE_VIRTUALENV = "1";
+    COLORTERM = "truecolor";
   };
 
   home.packages = with pkgs; [
@@ -83,6 +84,8 @@ in
     trash-cli
     tealdeer
     sshfs
+    sesh
+    mosh
 
     # utilities
     _1password-cli
@@ -104,7 +107,8 @@ in
 
   programs.tmux = {
     enable = true;
-    shortcut = "a";
+    shortcut = if pkgs.stdenv.isDarwin then "a" else "b";
+    shell = "${pkgs.zsh}/bin/zsh";
     keyMode = "vi";
     mouse = true;
     baseIndex = 1;
@@ -171,12 +175,26 @@ in
       # Quick popup terminal
       bind -n M-t display-popup -E -w 80% -h 80% -d "#{pane_current_path}"
 
-      # Fzf session switcher
-      bind s display-popup -E -w 60% -h 60% "\
-        tmux list-sessions -F '#{session_name}' | \
-        fzf --reverse --header='Switch session' \
-          --preview 'tmux capture-pane -ep -t {}' | \
-        xargs tmux switch-client -t"
+      # Sesh session picker
+      bind "T" run-shell "sesh connect \"$(
+        sesh list --icons | fzf-tmux -p 80%,70% \
+          --no-sort --ansi --border-label ' sesh ' --prompt '  ' \
+          --header '  ^a all ^t tmux ^x zoxide ^d kill ^f find' \
+          --bind 'tab:down,btab:up' \
+          --bind 'ctrl-a:change-prompt(  )+reload(sesh list --icons)' \
+          --bind 'ctrl-t:change-prompt(  )+reload(sesh list -t --icons)' \
+          --bind 'ctrl-x:change-prompt(  )+reload(sesh list -z --icons)' \
+          --bind 'ctrl-f:change-prompt(  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
+          --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(  )+reload(sesh list --icons)' \
+          --preview-window 'right:55%' \
+          --preview 'sesh preview {}'
+        )\""
+
+      # Toggle last session
+      bind L run-shell "sesh last"
+
+      # Stay in tmux when closing a session
+      set -g detach-on-destroy off
 
       # Reload config
       bind r source-file ~/.config/tmux/tmux.conf \; display "Config reloaded"
@@ -188,8 +206,6 @@ in
     '';
     plugins = with pkgs.tmuxPlugins; [
       sensible
-      sessionist
-      pain-control
       vim-tmux-navigator
       resurrect
       continuum
@@ -221,10 +237,11 @@ in
     # Manual compinit in initContent so fzf-tab sources after it.
     enableCompletion = false;
     shellAliases = {
+      ls = "ls --color=auto";
       ll = "eza --long --all --group --icons --time-style=long-iso";
       hms = "home-manager switch --flake ~/.config/home-manager --impure";
+      gist = "gh gist create -";
     } // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
-      ssh = "kitten ssh";
       hg = "kitten hyperlinked-grep";
     };
     history = {
@@ -268,6 +285,11 @@ in
       }
     ];
     initContent = ''
+      # Auto-attach to tmux on SSH login
+      if [[ -n "$SSH_CONNECTION" && -z "$TMUX" && $- == *i* ]]; then
+        tmux new-session -A -s main
+      fi
+
       # Path-aware word deletion (stop at / . - instead of eating entire paths)
       WORDCHARS=''\'''${WORDCHARS//[\/.]}'
       setopt CORRECT INTERACTIVE_COMMENTS NO_BEEP
@@ -419,12 +441,12 @@ in
       merge.conflictstyle = "zdiff3";
       merge.autoStash = true;
       pull.rebase = true;
-      core.hooksPath = "${config.home.homeDirectory}/.config/git/hooks";
+      init.templateDir = "${config.home.homeDirectory}/.config/git/template";
     };
   };
 
-  # Global git hooks — signoff on every commit
-  home.file.".config/git/hooks/prepare-commit-msg" = {
+  # Global git template hooks — applied to new clones/inits, chainable with pre-commit
+  home.file.".config/git/template/hooks/prepare-commit-msg" = {
     executable = true;
     text = ''
       #!/bin/sh
@@ -465,10 +487,12 @@ in
         };
       };
       git = {
-        paging = {
-          colorArg = "always";
-          pager = "delta --paging=never";
-        };
+        pagers = [
+          {
+            colorArg = "always";
+            pager = "delta --paging=never";
+          }
+        ];
         autoFetch = true;
         autoRefresh = true;
         log.showGraph = "always";
@@ -493,7 +517,7 @@ in
           context = "localBranches";
           command = "gh pr create --fill --web";
           description = "Create PR on GitHub";
-          subprocess = true;
+          output = "terminal";
         }
       ];
     };
@@ -647,10 +671,8 @@ in
       python = {
         symbol = "";
         style = "fg:color_yellow";
-        format = "[$symbol $virtualenv ($version) ]($style)";
-        detect_files = [];
-        detect_extensions = [];
-        detect_folders = [];
+        version_format = "$major.$minor.$patch";
+        format = "[$symbol python$version( \\($virtualenv\\)) ]($style)";
       };
       docker_context = {
         symbol = "";
@@ -813,6 +835,62 @@ PYEOF
     fi
   '';
 
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    matchBlocks = {
+      "*" = {
+        addKeysToAgent = "yes";
+        serverAliveInterval = 60;
+        serverAliveCountMax = 3;
+        controlMaster = "auto";
+        controlPath = "~/.ssh/sockets/%r@%h-%p";
+        controlPersist = "600";
+        extraOptions = {
+          UserKnownHostsFile = "/dev/null";
+          StrictHostKeyChecking = "no";
+        };
+      };
+      "github.com" = {
+        identityFile = "~/.ssh/id_ed25519";
+      };
+      "gold230" = {
+        hostname = "gold230";
+        user = "admin";
+      };
+      "ronan-vm" = {
+        hostname = "ronan-vm.dev.us-west-1.nexthop.ai";
+        user = "ronan";
+        forwardAgent = true;
+        identityFile = "~/.ssh/id_ed25519";
+        serverAliveInterval = 30;
+        proxyCommand = "quicssh client --addr %h:60666 --session-layer --insecure --skip-verify-hostname";
+      };
+      "ronan-vm-ssh" = {
+        hostname = "ronan-vm.dev.us-west-1.nexthop.ai";
+        user = "ronan";
+        forwardAgent = true;
+        identityFile = "~/.ssh/id_ed25519";
+        serverAliveInterval = 30;
+      };
+      "ronan-vm.dev.us-west-1.nexthop.ai-ssh" = {
+        hostname = "ronan-vm.dev.us-west-1.nexthop.ai";
+        user = "ronan";
+        forwardAgent = true;
+        identityFile = "~/.ssh/id_ed25519";
+        serverAliveInterval = 30;
+      };
+      "ronan-vm.dev.us-west-1.nexthop.ai" = {
+        hostname = "ronan-vm.dev.us-west-1.nexthop.ai";
+        user = "ronan";
+        forwardAgent = true;
+        identityFile = "~/.ssh/id_ed25519";
+        serverAliveInterval = 30;
+        proxyCommand = "quicssh client --addr %h:60666 --session-layer --insecure --skip-verify-hostname";
+      };
+    };
+  };
+
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -823,8 +901,10 @@ PYEOF
   home.activation.installNpmTools = config.lib.dag.entryAfter [ "writeBoundary" ] ''
     export NPM_CONFIG_PREFIX="$HOME/.npm-global"
     mkdir -p "$NPM_CONFIG_PREFIX"
-    for pkg in @anthropic-ai/claude-code @augmentcode/auggie; do
-      if ! "$NPM_CONFIG_PREFIX/bin/$(basename "$pkg")" --version >/dev/null 2>&1; then
+    for bin_pkg in claude:@anthropic-ai/claude-code auggie:@augmentcode/auggie; do
+      bin="''${bin_pkg%%:*}"
+      pkg="''${bin_pkg#*:}"
+      if ! "$NPM_CONFIG_PREFIX/bin/$bin" --version >/dev/null 2>&1; then
         ${pkgs.nodejs}/bin/npm install -g "$pkg" 2>/dev/null || true
       fi
     done

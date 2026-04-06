@@ -31,6 +31,7 @@
     in
     {
       homeConfigurations = {
+        "ronan" = mkHomeConfig "aarch64-darwin";
         "ronan@ronans-mbp.lan" = mkHomeConfig "aarch64-darwin";
         "ronan@ronan-vm" = mkHomeConfig "x86_64-linux";
       };
