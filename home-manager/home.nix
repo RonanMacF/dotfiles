@@ -110,6 +110,7 @@ in
     # utilities
     _1password-cli
     gcalcli
+    postgresql_14
     grafana-loki  # provides logcli
     awscli2
   ]

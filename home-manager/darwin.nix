@@ -36,12 +36,12 @@
       KeyRepeat = 2;
       "com.apple.swipescrolldirection" = true;
     };
-    screencapture.location = "~/Screenshots";
+    screencapture.location = "/Users/ronan/Desktop/Screenshots";
   };
 
   # Ensure Screenshots directory exists for screencapture.location
   system.activationScripts.postActivation.text = ''
-    mkdir -p /Users/ronan/Screenshots
+    mkdir -p /Users/ronan/Desktop/Screenshots
   '';
 
   system.stateVersion = 5;
