@@ -6,7 +6,9 @@
     defaultEditor = true;
     withRuby = false;
     withPython3 = false;
-    # Plugins managed by LazyVim in ~/.config/nvim/
+    initLua = ''
+      require("config.lazy")
+    '';
   };
 
   programs.kitty = {
@@ -14,7 +16,7 @@
     # On macOS, Kitty is installed via Homebrew cask (darwin.nix).
     # On Linux, Nix provides the package (for terminfo + kitten).
     package = if pkgs.stdenv.isDarwin then pkgs.emptyDirectory else pkgs.kitty;
-    shellIntegration.enableZshIntegration = true;
+    shellIntegration.enableZshIntegration = false;
     extraConfig = builtins.readFile "${config.home.homeDirectory}/dotfiles/kitty/kitty.conf";
   };
 
@@ -29,50 +31,52 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       "*" = {
-        addKeysToAgent = "yes";
-        serverAliveInterval = 60;
-        serverAliveCountMax = 3;
-        controlMaster = "auto";
-        controlPath = "~/.ssh/sockets/%r@%h-%p";
-        controlPersist = "600";
-        extraOptions = {
-          UserKnownHostsFile = "/dev/null";
-          StrictHostKeyChecking = "no";
-        };
+        AddKeysToAgent = "yes";
+        ServerAliveInterval = 60;
+        ServerAliveCountMax = 3;
+        ControlMaster = "auto";
+        ControlPath = "~/.ssh/sockets/%r@%h-%p";
+        ControlPersist = "600";
+        UserKnownHostsFile = "/dev/null";
+        StrictHostKeyChecking = "no";
       };
       "github.com" = {
-        identityFile = "~/.ssh/id_ed25519";
+        IdentityFile = "~/.ssh/id_ed25519";
       };
       "gold230" = {
-        hostname = "gold230";
-        user = "admin";
+        HostName = "gold230";
+        User = "admin";
       };
       # QUIC transport (default for short alias and FQDN)
       "ronan-vm" = {
-        hostname = "ronan-vm.dev.us-west-1.nexthop.ai";
-        user = "ronan";
-        forwardAgent = true;
-        identityFile = "~/.ssh/id_ed25519";
-        serverAliveInterval = 30;
-        proxyCommand = "quicssh client --addr %h:60666 --session-layer --insecure --skip-verify-hostname";
+        HostName = "ronan-vm.dev.us-west-1.nexthop.ai";
+        User = "ronan";
+        ForwardAgent = true;
+        IdentityFile = "~/.ssh/id_ed25519";
+        # quicssh --session-layer owns liveness; disable ssh's keepalive watchdog so
+        # it waits patiently while quicssh resumes the session across sleep/VPN drops.
+        ServerAliveInterval = 0;
+        ProxyCommand = "quicssh client --addr %h:60666 --idle-timeout 20s --session-layer --insecure --skip-verify-hostname";
       };
       "ronan-vm.dev.us-west-1.nexthop.ai" = {
-        hostname = "ronan-vm.dev.us-west-1.nexthop.ai";
-        user = "ronan";
-        forwardAgent = true;
-        identityFile = "~/.ssh/id_ed25519";
-        serverAliveInterval = 30;
-        proxyCommand = "quicssh client --addr %h:60666 --session-layer --insecure --skip-verify-hostname";
+        HostName = "ronan-vm.dev.us-west-1.nexthop.ai";
+        User = "ronan";
+        ForwardAgent = true;
+        IdentityFile = "~/.ssh/id_ed25519";
+        # quicssh --session-layer owns liveness; disable ssh's keepalive watchdog so
+        # it waits patiently while quicssh resumes the session across sleep/VPN drops.
+        ServerAliveInterval = 0;
+        ProxyCommand = "quicssh client --addr %h:60666 --idle-timeout 20s --session-layer --insecure --skip-verify-hostname";
       };
       # Direct SSH fallback (no QUIC)
       "ronan-vm-ssh ronan-vm.dev.us-west-1.nexthop.ai-ssh" = {
-        hostname = "ronan-vm.dev.us-west-1.nexthop.ai";
-        user = "ronan";
-        forwardAgent = true;
-        identityFile = "~/.ssh/id_ed25519";
-        serverAliveInterval = 30;
+        HostName = "ronan-vm.dev.us-west-1.nexthop.ai";
+        User = "ronan";
+        ForwardAgent = true;
+        IdentityFile = "~/.ssh/id_ed25519";
+        ServerAliveInterval = 30;
       };
     };
   };

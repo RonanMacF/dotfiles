@@ -2,7 +2,16 @@
 
   programs.git = {
     enable = true;
-    package = pkgs.gitFull;
+    package = pkgs.git;
+    # Disable fsmonitor for temp dirs — FSEvents is unreliable under
+    # /private/tmp and /var/folders (macOS $TMPDIR) and causes
+    # "could not read IPC response" errors.
+    includes = [
+      { condition = "gitdir:/tmp/"; contents.core.fsmonitor = false; }
+      { condition = "gitdir:/private/tmp/"; contents.core.fsmonitor = false; }
+      { condition = "gitdir:/var/folders/"; contents.core.fsmonitor = false; }
+      { condition = "gitdir:/private/var/folders/"; contents.core.fsmonitor = false; }
+    ];
     ignores = [
       ".direnv"
       ".envrc"
@@ -60,11 +69,11 @@
         prune = true;
         pruneTags = true;
         all = true;
-        writeCommitGraph = true;
       };
       help.autocorrect = "prompt";
       commit.verbose = true;
       commit.gpgSign = true;
+      commit.signoff = true;
       log.date = "iso";
       rerere = {
         enabled = true;
@@ -84,20 +93,10 @@
       merge.conflictstyle = "zdiff3";
       merge.autoStash = true;
       pull.rebase = true;
-      init.templateDir = "${config.home.homeDirectory}/.config/git/template";
     };
   };
 
-  # Global git template hooks — applied to new clones/inits, chainable with pre-commit
-  home.file.".config/git/template/hooks/prepare-commit-msg" = {
-    executable = true;
-    text = ''
-      #!/bin/sh
-      # Add Signed-off-by if not already present, with proper blank line separation
-      SOB="Signed-off-by: $(git config user.name) <$(git config user.email)>"
-      grep -qs "^$SOB" "$1" || git interpret-trailers --in-place --trailer "$SOB" "$1"
-    '';
-  };
+
 
   programs.lazygit = {
     enable = true;

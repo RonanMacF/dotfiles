@@ -1,5 +1,13 @@
 return {
   {
+    "nvim-neotest/neotest",
+    dependencies = { "fredrikaverpil/neotest-golang" },
+    opts = function(_, opts)
+      opts.adapters = opts.adapters or {}
+      opts.adapters["neotest-golang"] = {}
+    end,
+  },
+  {
     "mfussenegger/nvim-dap-python",
     config = function()
       -- Set up with python3 as base, then override the adapter to resolve

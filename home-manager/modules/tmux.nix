@@ -14,6 +14,10 @@
       # True color support — tell tmux that the outer terminal supports RGB
       set -ga terminal-overrides ",xterm-kitty:Tc,tmux-256color:Tc"
 
+      # OSC 8 hyperlink support — tmux strips OSC 8 unless Hls is advertised
+      set -as terminal-features ",xterm-kitty:hyperlinks"
+      set -as terminal-features ",tmux-256color:hyperlinks"
+
       # Allow OSC escape sequences to pass through to the outer terminal (kitty).
       set -g allow-passthrough on
 
@@ -87,7 +91,7 @@
           --preview-window 'right:55%' \
           --preview 'sesh preview {}' \
           | tail -1
-        )\""
+        )\" || true"
 
       # Toggle last session
       bind L run-shell "sesh last"
@@ -102,12 +106,12 @@
       set -g @resurrect-capture-pane-contents 'on'
       set -g @continuum-restore 'on'
       set -g @continuum-save-interval '10'
+      set -g @continuum-boot 'on'
     '';
     plugins = with pkgs.tmuxPlugins; [
       sensible
       vim-tmux-navigator
       resurrect
-      continuum
       tmux-fzf
       tmux-thumbs
       {
@@ -123,6 +127,10 @@
           set -ag status-right "#{E:@catppuccin_status_uptime}"
         '';
       }
+      # Load continuum LAST so its periodic-save hook lands on top of
+      # catppuccin's status-right (otherwise catppuccin clobbers it and
+      # automatic saves silently stop — what caused the 2026-06-03 gap).
+      continuum
     ];
   };
 }

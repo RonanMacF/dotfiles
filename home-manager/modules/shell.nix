@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }: {
+{ config, pkgs, lib, inputs, ... }: {
 
   programs.zsh = {
     enable = true;
@@ -12,6 +12,8 @@
     shellAliases = {
       ls = "ls --color=auto";
       ll = "eza --long --all --group --icons --time-style=long-iso";
+      # Reload shell cleanly: resets inherited blocked SIGCHLD before exec'ing zsh.
+      rezsh = "exec python3 -c 'import signal,os; signal.pthread_sigmask(signal.SIG_SETMASK,set()); os.execvp(\"zsh\",[\"-zsh\"])'";
       hms = if pkgs.stdenv.isDarwin
         then "sudo darwin-rebuild switch --flake ~/.config/home-manager --impure"
         else "home-manager switch --flake ~/.config/home-manager --impure";
@@ -61,6 +63,22 @@
       }
     ];
     initContent = ''
+      # Raise per-process FD limit — macOS default (256–2560) is too low for
+      # tools like nvim that watch large monorepos via libuv fs_event.
+      ulimit -n 65536 2>/dev/null
+
+      # Kitty shell integration — login shells only (exec zsh is non-login; running
+      # kitty-integration in that context blocks on sysopen to the TTY).
+      if [[ -o login ]] && [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
+        export KITTY_SHELL_INTEGRATION="no-rc"
+        autoload -Uz -- "$KITTY_INSTALLATION_DIR/shell-integration/zsh/kitty-integration"
+        kitty-integration
+        unfunction kitty-integration
+      fi
+
+      # 1Password shell plugins — interactive only; non-interactive tools use GH_TOKEN or keychain
+      [[ -o interactive ]] && [[ -f "$HOME/.config/op/plugins.sh" ]] && source "$HOME/.config/op/plugins.sh"
+
       # Auto-attach to tmux on SSH login
       if [[ -n "$SSH_CONNECTION" && -z "$TMUX" && $- == *i* ]]; then
         tmux new-session -A -s main
@@ -83,9 +101,15 @@
             || git -C "$bare" worktree add "$wt" "ronan.$name"
         fi
 
+        # Ensure .envrc exists and is allowed so direnv exec works
+        if [[ ! -f "$wt/.envrc" ]]; then
+          echo "layout python python3.13" > "$wt/.envrc"
+        fi
+        direnv allow "$wt"
+
         # Create tmux session with 3 windows
         tmux new-session -d -s "$name" -c "$wt" -n claude
-        tmux send-keys -t "$name:claude" "claude" Enter
+        tmux send-keys -t "$name:claude" "direnv exec '$wt' claude" Enter
         tmux new-window -t "$name" -n shell -c "$wt"
         tmux new-window -t "$name" -n nvim -c "$wt"
         tmux send-keys -t "$name:nvim" "nvim" Enter
@@ -98,13 +122,14 @@
         fi
       }
 
-      # Set up a direnv-managed Python venv in the current directory
+      # Set up a direnv-managed Python venv in the current directory.
+      # Usage: venv [python-version]  e.g. venv python3.11
       venv() {
         if [[ -f .envrc ]]; then
           echo ".envrc already exists"
           return 1
         fi
-        echo "layout python" > .envrc
+        echo "layout python ''${1:-python3.13}" > .envrc
         direnv allow
       }
 
@@ -182,8 +207,37 @@
       zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -1 --color=always --icons $realpath'
       zstyle ':fzf-tab:*' switch-group '<' '>'
 
-      autoload -U compinit && compinit -C
+      # zoxide — use source <() to avoid sigsuspend hang under exec zsh
+      source <(${pkgs.zoxide}/bin/zoxide init zsh)
+
+      # Non-login shells skip compdump rewrite (-D): compdump's $(typeset +fm '_*')
+      # hangs under exec zsh due to inherited broken SIGCHLD state.
+      autoload -U compinit
+      if [[ -o login ]]; then
+        compinit
+      else
+        compinit -C -D
+      fi
       source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
+
+      if [[ $TERM != "dumb" ]]; then
+        unset STARSHIP_SESSION_KEY STARSHIP_SHELL
+        source <(starship init zsh 2>/dev/null)
+        # starship init sets PROMPT/RPROMPT to '$()' which hangs in ZLE (child_block
+        # is called before promptexpand). Compute in precmd instead, which runs
+        # before ZLE acquires its child block.
+        PROMPT=
+        RPROMPT=
+        _starship_render() {
+          PROMPT="$(starship prompt --terminal-width="''${COLUMNS:-80}" --keymap="''${KEYMAP:-}" --status="''${STARSHIP_CMD_STATUS:-}" --pipestatus="''${STARSHIP_PIPE_STATUS[*]:-}" --cmd-duration="''${STARSHIP_DURATION:-}" --jobs="''${STARSHIP_JOBS_COUNT:-0}")"
+          RPROMPT="$(starship prompt --right --terminal-width="''${COLUMNS:-80}" --keymap="''${KEYMAP:-}" --status="''${STARSHIP_CMD_STATUS:-}" --pipestatus="''${STARSHIP_PIPE_STATUS[*]:-}" --cmd-duration="''${STARSHIP_DURATION:-}" --jobs="''${STARSHIP_JOBS_COUNT:-0}")"
+        }
+        add-zsh-hook precmd _starship_render
+        PROMPT2='$(starship prompt --continuation)'
+      fi
+
+      # direnv — use source <() to avoid sigsuspend hang under exec zsh
+      source <(${pkgs.direnv}/bin/direnv hook zsh)
     '';
   };
 
@@ -197,7 +251,7 @@
     prompt-vim  = u "f434";    #
   in {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
     settings = {
       command_timeout = 5000;
       palette = "gruvbox_dark";
@@ -363,9 +417,28 @@
 
   programs.direnv = {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
     nix-direnv.enable = true;
     stdlib = ''
+      # Auto-load secrets from 1Password into every direnv environment.
+      # Silent when op isn't installed (CI, offline); warns when installed
+      # but not signed in so missing creds don't surprise you.
+      if command -v op &>/dev/null; then
+        if ${pkgs.coreutils}/bin/timeout 5 op whoami &>/dev/null; then
+          export JIRA_TOKEN="$(${pkgs.coreutils}/bin/timeout 5 op read 'op://Nexthop/Jira/token' 2>/dev/null)"
+          export JIRA_EMAIL="$(${pkgs.coreutils}/bin/timeout 5 op read 'op://Nexthop/Jira/email' 2>/dev/null)"
+          export GITHUB_TOKEN="$(${pkgs.coreutils}/bin/timeout 5 op read 'op://Nexthop/Developer Tokens/token' 2>/dev/null)"
+          export GH_TOKEN="$GITHUB_TOKEN"
+          # jira-cli (ankitpokhrel)
+          export JIRA_API_TOKEN="$JIRA_TOKEN"
+          # acli (Atlassian official)
+          export ATLASSIAN_API_TOKEN="$JIRA_TOKEN"
+          export ATLASSIAN_EMAIL="$JIRA_EMAIL"
+        else
+          log_error "op not signed in — JIRA/GitHub tokens not exported. Run: eval \$(op signin)"
+        fi
+      fi
+
       # Name venvs after the project directory instead of python-X.Y
       # Uses uv for venv creation when available (10-100x faster)
       layout_python() {
@@ -399,6 +472,6 @@
 
   programs.zoxide = {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
   };
 }

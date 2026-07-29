@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 let
   username = "ronan";
@@ -35,6 +35,7 @@ in
     NPM_CONFIG_PREFIX = "$HOME/.npm-global";
     PIP_REQUIRE_VIRTUALENV = "1";
     COLORTERM = "truecolor";
+    BAO_ADDR = "https://bao.sw.internal.nexthop.ai:8200";
   };
 
   home.packages = with pkgs; [
@@ -57,7 +58,7 @@ in
 
     # go tools
     gofumpt
-    gotools
+    (lib.lowPrio gotools)
     golines
     golangci-lint
     gotestsum
@@ -84,6 +85,7 @@ in
     python3Packages.debugpy
 
     # build tools
+    bazelisk
     gcc
     luarocks
     openssl
@@ -98,6 +100,8 @@ in
     fd
     eza
     jq
+    yq-go
+    ssm-session-manager-plugin
     fx
     btop
     lsof
@@ -108,16 +112,22 @@ in
     mosh
 
     # utilities
+    jira-cli-go
     _1password-cli
     gcalcli
     postgresql_14
     grafana-loki  # provides logcli
     awscli2
+    openbao  # provides bao
   ]
   ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
     libnotify  # provides notify-send for zsh-auto-notify
   ]
   ;
+
+  home.file.".config/.jira/.config.yml".source = ./config/jira/config.yml;
+
+  # acli config — auth via ATLASSIAN_* env vars, no config file needed
 
   # Install npm-based CLI tools not in nixpkgs
   home.activation.installNpmTools = config.lib.dag.entryAfter [ "writeBoundary" ] ''
