@@ -37,7 +37,7 @@
         ServerAliveInterval = 60;
         ServerAliveCountMax = 3;
         ControlMaster = "auto";
-        ControlPath = "~/.ssh/sockets/%r@%h-%p";
+        ControlPath = "~/.ssh/sockets/%r@%n-%p";
         ControlPersist = "600";
         UserKnownHostsFile = "/dev/null";
         StrictHostKeyChecking = "no";
