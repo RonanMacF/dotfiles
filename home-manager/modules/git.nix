@@ -63,7 +63,9 @@
       push = {
         default = "simple";
         autoSetupRemote = true;
-        followTags = true;
+        # Off: pushing a branch to a public fork (e.g. nexthop-ai/sonic-mgmt)
+        # would carry internal *.Nexthop release tags with it.
+        followTags = false;
       };
       fetch = {
         prune = true;

@@ -76,8 +76,8 @@
       # Quick popup terminal
       bind -n M-t display-popup -E -w 80% -h 80% -d "#{pane_current_path}"
 
-      # Sesh session picker
-      bind "T" run-shell "sesh connect \"$(
+      # Sesh session picker; a typed name with no match becomes a new session
+      bind "T" run-shell "sel=\"$(
         sesh list --icons | fzf-tmux -p 80%,70% \
           --no-sort --ansi --border-label ' sesh ' --prompt '  ' \
           --print-query \
@@ -91,7 +91,8 @@
           --preview-window 'right:55%' \
           --preview 'sesh preview {}' \
           | tail -1
-        )\" || true"
+        )\"; [ -n \"$sel\" ] || exit 0; sesh connect \"$sel\" 2>/dev/null ||
+        { tmux new-session -d -s \"$sel\" -c \"#{pane_current_path}\" && tmux switch-client -t \"=$sel\"; } || true"
 
       # Toggle last session
       bind L run-shell "sesh last"

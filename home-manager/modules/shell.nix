@@ -400,16 +400,16 @@
       "--color" "marker:#689d6a,fg+:#ebdbb2,prompt:#d79921,hl+:#d65d0e"
       "--bind=ctrl-/:toggle-preview"
     ];
-    fileWidgetCommand = "fd --type f --hidden --follow --exclude .git";
-    fileWidgetOptions = [
+    fileWidget.command = "fd --type f --hidden --follow --exclude .git";
+    fileWidget.options = [
       "--preview" "'bat --color=always --style=numbers --line-range=:500 {}'"
       "--preview-window" "'right:60%:border-left'"
     ];
-    changeDirWidgetCommand = "fd --type d --hidden --follow --exclude .git";
-    changeDirWidgetOptions = [
+    changeDirWidget.command = "fd --type d --hidden --follow --exclude .git";
+    changeDirWidget.options = [
       "--preview" "'eza --tree --color=always --icons --level=2 {}'"
     ];
-    historyWidgetOptions = [
+    historyWidget.options = [
       "--sort"
       "--exact"
     ];
