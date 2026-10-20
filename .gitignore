@@ -1,3 +1,7 @@
 .*
 zsh/.zsh_history
 zsh/.zcompdump*
+
+# home-manager-generated symlinks into /nix/store
+nvim/init.lua
+zsh/plugins/
